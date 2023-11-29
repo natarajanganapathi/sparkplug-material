@@ -6,7 +6,11 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "test": "ng test",
+    "build:material": "ng build material",
+    "pack:material" : "cd dist/material && npm pack",
+    "install:material": "npm install ./dist/material/sparkplug-ui-0.0.0-alpha.0.tgz",
+    "doctor": "npm run build:material && npm run build"
   },
   "private": true,
   "dependencies": {
