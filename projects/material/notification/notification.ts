@@ -15,7 +15,7 @@ export const SPC_LAYOUT_CONFIG = new InjectionToken<SpcNotificationConfig>(
 );
 
 @Component({
-  selector: "spc-layout",
+  selector: "spc-notification",
   template: "<div>Notification</div>",
   styleUrls: [],
   exportAs: "spcNotification",

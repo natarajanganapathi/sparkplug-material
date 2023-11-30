@@ -17,3 +17,5 @@ ng generate component dropdown --standalone --flat --path src/material/dropdown
 1. Husky setup
 2. Publish to npm registry pipeline in Azure DevOps
 3. Create custome Schematics
+4. Setup the pipeline for CI and Publish the components and schematics to npm registry
+5. 
