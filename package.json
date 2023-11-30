@@ -9,7 +9,7 @@
     "test": "ng test",
     "build:material": "ng build material",
     "pack:material": "cd dist/material && npm pack",
-    "install:material": "npm run build:material && npm run pack:material && npm install ./dist/material/sparkplug-ui-0.0.0-alpha.0.tgz",
+    "install:material": "npm run build:material && npm run pack:material && npm install ./dist/material/sparkplug-material-0.0.0-alpha.0.tgz",
     "doctor": "npm run build:material && npm run build"
   },
   "private": true,
@@ -23,8 +23,8 @@
     "@angular/platform-browser": "^17.0.5",
     "@angular/platform-browser-dynamic": "^17.0.5",
     "@angular/router": "^17.0.5",
+    "@sparkplug/material": "file:dist/material/sparkplug-material-0.0.0-alpha.0.tgz",
     "rxjs": "~7.8.0",
-    "sparkplug-ui": "file:dist/material/sparkplug-ui-0.0.0-alpha.0.tgz",
     "tslib": "^2.3.0",
     "zone.js": "~0.14.2"
   },
