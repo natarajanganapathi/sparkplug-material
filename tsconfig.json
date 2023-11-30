@@ -11,8 +11,8 @@
       "noFallthroughCasesInSwitch": true,
       "esModuleInterop": true,
       "paths": {
-        "material": [
-          "./dist/material"
+        "@sparkplug/material/*": [
+          "./projects/material/*"
         ]
       },
       "sourceMap": true,
