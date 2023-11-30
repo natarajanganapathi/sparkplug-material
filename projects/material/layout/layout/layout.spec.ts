@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { SpcLayout } from './layout';
 
-describe('ButtonComponent', () => {
+describe('LayoutComponent', () => {
   let component: SpcLayout;
   let fixture: ComponentFixture<SpcLayout>;
 
