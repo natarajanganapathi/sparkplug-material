@@ -9,7 +9,6 @@
     "test": "ng test",
     "build:material": "ng build material",
     "pack:material": "cd dist/material && npm pack",
-    "install:material": "npm run build:material && npm run pack:material && npm install ./dist/material/sparkplug-material-0.0.0-alpha.0.tgz",
     "doctor": "npm run build:material && npm run build"
   },
   "dependencies": {
