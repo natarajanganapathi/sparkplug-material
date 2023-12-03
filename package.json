@@ -1,5 +1,5 @@
 {
-  "name": "@sparkplug/material",
+  "name": "@freshthought/material",
   "version": "0.0.0-alpha.0",
   "publishConfig": {
     "registry": "https://npm.pkg.github.com/natarajanganapathi"

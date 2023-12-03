@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterOutlet } from '@angular/router';
-import { SpcLayout} from '@sparkplug/material/layout';
+import { SpcLayout} from '@freshthought/material/layout';
 
 @Component({
   selector: 'app-root',

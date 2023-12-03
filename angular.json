@@ -3,7 +3,7 @@
   "version": 1,
   "newProjectRoot": "projects",
   "projects": {
-    "sparkplug-ui": {
+    "freshthought-ui": {
       "projectType": "application",
       "schematics": {
         "@schematics/angular:component": {
@@ -17,7 +17,7 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
-            "outputPath": "dist/sparkplug-ui",
+            "outputPath": "dist/freshthought-ui",
             "index": "src/index.html",
             "browser": "src/main.ts",
             "polyfills": [
@@ -62,10 +62,10 @@
           "builder": "@angular-devkit/build-angular:dev-server",
           "configurations": {
             "production": {
-              "buildTarget": "sparkplug-ui:build:production"
+              "buildTarget": "freshthought-ui:build:production"
             },
             "development": {
-              "buildTarget": "sparkplug-ui:build:development"
+              "buildTarget": "freshthought-ui:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -73,7 +73,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "buildTarget": "sparkplug-ui:build"
+            "buildTarget": "freshthought-ui:build"
           }
         },
         "test": {

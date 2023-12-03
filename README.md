@@ -1,4 +1,4 @@
-# sparkplug-ui
+# freshthought-ui
 Angular Material Design Functional Components
 
 Generate new componant
