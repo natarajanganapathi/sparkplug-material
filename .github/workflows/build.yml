@@ -23,11 +23,8 @@ jobs:
     - run: npm ci || true
     - run: npm run build
     - run: npm run build material
-    - name: Replace <TOKEN> with GITHUB_TOKEN in .npmrc
+    - name: Replace <TOKEN> with NPM_TOKEN in .npmrc
       run: sed -i 's|//npm.pkg.github.com/:_authToken=<TOKEN>|//npm.pkg.github.com/:_authToken=${{ secrets.NPM_TOKEN }}|' .npmrc 
     - run: npm publish --access public
       env:
         NODE_AUTH_TOKEN: ${{ secrets.NPM_TOKEN }}
-        GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-    # - run: npm test
-    # - run: npm test material
