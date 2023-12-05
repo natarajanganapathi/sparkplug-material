@@ -1,15 +1,15 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
-import { SpcLayout } from './layout';
+import { FtcLayout } from './layout';
 
 describe('LayoutComponent', () => {
-  let component: SpcLayout;
-  let fixture: ComponentFixture<SpcLayout>;
+  let component: FtcLayout;
+  let fixture: ComponentFixture<FtcLayout>;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      imports: [SpcLayout],
+      imports: [FtcLayout],
     });
-    fixture = TestBed.createComponent(SpcLayout);
+    fixture = TestBed.createComponent(FtcLayout);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

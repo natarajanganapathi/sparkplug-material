@@ -1,10 +1,10 @@
 import { NgModule } from "@angular/core";
 import { MatCommonModule } from "@angular/material/core";
 import { A11yModule } from "@angular/cdk/a11y";
-import { SpcLayout } from "./layout/layout";
+import { FtcLayout } from "./layout/layout";
 
 @NgModule({
-  imports: [A11yModule, MatCommonModule, SpcLayout],
-  exports: [SpcLayout, MatCommonModule],
+  imports: [A11yModule, MatCommonModule, FtcLayout],
+  exports: [MatCommonModule, FtcLayout],
 })
-export class SpcLayoutModule {}
+export class FtcLayoutModule {}

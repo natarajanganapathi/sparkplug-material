@@ -1,7 +1,6 @@
-
 // Custom Theming for Angular Material
 // For more information: https://material.angular.io/guide/theming
-@use '@angular/material' as mat;
+@use "@angular/material" as mat;
 // Plus imports for other components in your app.
 
 // Include the common styles for Angular Material. We include this here so that you only
@@ -20,13 +19,15 @@ $freshthought-ui-warn: mat.define-palette(mat.$red-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$freshthought-ui-theme: mat.define-light-theme((
-  color: (
-    primary: $freshthought-ui-primary,
-    accent: $freshthought-ui-accent,
-    warn: $freshthought-ui-warn,
+$freshthought-ui-theme: mat.define-light-theme(
+  (
+    color: (
+      primary: $freshthought-ui-primary,
+      accent: $freshthought-ui-accent,
+      warn: $freshthought-ui-warn
+    )
   )
-));
+);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
@@ -35,5 +36,26 @@ $freshthought-ui-theme: mat.define-light-theme((
 
 /* You can add global styles to this file, and also import other style files */
 
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+:root {
+  --navbar-height: 52px;
+  --footer-height: 32px;
+  --navbar-org-height: 180px;
+  --sidenav-container-height: 100%; // calc(100% - var(--navbar-height) - var(--footer-height));
+  --sidenav-menu-height: calc(100% - var(--navbar-org-height));
+}
+
+html,
+body {
+  height: 100%;
+}
+body {
+  margin: 0;
+  font-family: Roboto, "Helvetica Neue", sans-serif;
+
+  mat-sidenav {
+    width: 225px;
+  }
+  .spacer {
+    flex: 1 1 auto;
+  }
+}

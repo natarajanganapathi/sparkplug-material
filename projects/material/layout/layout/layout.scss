@@ -1,0 +1,21 @@
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+
+    mat-sidenav-container {
+        height: 100vh;
+        .mat-drawer-side {
+            border-right-style: none;
+        }
+        .spacer {
+            flex: 1 1 auto;
+        }
+
+        .container {
+            // border: 1px solid red !important;
+            height: 89vh;
+            overflow-y: auto;
+        }
+    }
+}

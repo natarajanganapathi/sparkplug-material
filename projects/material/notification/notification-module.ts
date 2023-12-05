@@ -1,10 +1,10 @@
 import { NgModule } from "@angular/core";
 import { MatCommonModule } from "@angular/material/core";
 import { A11yModule } from "@angular/cdk/a11y";
-import { SpcNotification } from "./notification";
+import { FtcNotification } from "./notification";
 
 @NgModule({
-  imports: [A11yModule, MatCommonModule, SpcNotification],
-  exports: [SpcNotification, MatCommonModule],
+  imports: [A11yModule, MatCommonModule, FtcNotification],
+  exports: [FtcNotification, MatCommonModule],
 })
-export class SpcNotificationModule {}
+export class FtcNotificationModule {}
