@@ -1,5 +1,5 @@
 <mat-sidenav-container>
-  <mat-sidenav mode="side" [opened]="true">
+  <mat-sidenav [mode]="mode" [style.width]="sidenavWidth" [opened]="opened" #sidenav>
     <div class="sidenav">
       <ng-content select="[sidenav-top]"></ng-content>
       <span class="y-spacer"></span>
@@ -9,6 +9,9 @@
 
   <mat-sidenav-content>
     <mat-toolbar>
+      <button mat-icon-button (click)="toggleSidenav()">
+        <mat-icon>menu</mat-icon>
+      </button>
       <ng-content select="[toolbar-left]"></ng-content>
       <span class="x-spacer"></span>
       <ng-content select="[toolbar-center]"></ng-content>

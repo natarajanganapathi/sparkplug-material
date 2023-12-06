@@ -9,7 +9,7 @@
         }
 
         mat-sidenav {
-            width: 275px;
+            transition: width 0.3s;
 
             .sidenav {
                 display: flex;
