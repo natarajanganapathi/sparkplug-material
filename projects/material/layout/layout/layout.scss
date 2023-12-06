@@ -5,17 +5,29 @@
 
     mat-sidenav-container {
         height: 100vh;
+
         .mat-drawer-side {
             border-right-style: none;
         }
-        .spacer {
-            flex: 1 1 auto;
+
+        mat-sidenav {
+            display: flex;
+            flex-direction: column;
+            width: 275px;
         }
 
-        .container {
-            // border: 1px solid red !important;
-            height: 89vh;
-            overflow-y: auto;
+        mat-sidenav-content {
+            display: flex;
+            flex-direction: column;
+
+            .container {
+                flex: 1;
+                overflow-y: auto;
+            }
         }
+    }
+    .statusbar {
+        height: 35px;
+        border: 1px red solid;
     }
 }

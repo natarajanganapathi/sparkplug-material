@@ -1,45 +1,38 @@
 <mat-sidenav-container>
   <mat-sidenav mode="side" [opened]="true">
     <ng-content select="[sidenav-top]"></ng-content>
+    <mat-menu></mat-menu>
     <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-      <mat-nav-list>
-        <mat-tree-node
-          *matTreeNodeDef="let node"
-          matTreeNodeToggle
-          mat-ripple
-          routerLinkActive="active"
-          class="mat-list-item-hover"
+      <mat-tree-node
+        *matTreeNodeDef="let node"
+        matTreeNodeToggle
+        routerLinkActive="active"
+      >
+        <button
+          mat-menu-item
+          [routerLink]="node.route"
+          [queryParams]="node.queryParams"
         >
-          <a
-            mat-list-item
-            [routerLink]="node.route"
-            [activated]="node.label"
-            [queryParams]="node.queryParams"
-          >
-            {{ node.label }}
-          </a>
-        </mat-tree-node>
-      </mat-nav-list>
+          <mat-icon>{{ node.icon || 'star' }}</mat-icon>
+          {{ node.label }}
+        </button>
+      </mat-tree-node>
 
       <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
-        <div
-          class="mat-tree-node mat-list-item-hover"
-          matTreeNodeToggle
-          mat-ripple
-          routerLinkActive="active"
-        >
-          <a
-            mat-list-item
+        <div class="mat-tree-node" matTreeNodeToggle routerLinkActive="active">
+          <button
+            mat-menu-item
             [routerLink]="node.route"
-            [activated]="node.label"
             [queryParams]="node.queryParams"
+            class="menu-item"
           >
-            {{ node.label }}
-          </a>
-          <span class="spacer"></span>
-          <mat-icon>
-            {{ treeControl.isExpanded(node) ? 'expand_more' : 'chevron_right' }}
-          </mat-icon>
+            <mat-icon>{{ node.icon || 'star' }}</mat-icon>
+            <span>{{ node.label }}</span>
+              <mat-icon >
+                {{ treeControl.isExpanded(node) ? 'expand_more':'chevron_right'}}
+              </mat-icon>
+            <!-- <span>{{ treeControl.isExpanded(node) ? '▼': '►' }}</span> -->
+          </button>
         </div>
         <div [style.display]="treeControl.isExpanded(node) ? 'block' : 'none'">
           <ng-container matTreeNodeOutlet></ng-container>
@@ -49,7 +42,7 @@
     <ng-content select="[sidenav-bottom]"></ng-content>
   </mat-sidenav>
   <mat-sidenav-content>
-    <mat-toolbar id="toolbar">
+    <mat-toolbar>
       <ng-content select="[toolbar-left]"></ng-content>
       <span>{{name}}</span>
       <span class="spacer"></span>
@@ -63,10 +56,10 @@
       <ng-content select="[toolbar-right]"></ng-content>
     </mat-toolbar>
     <div class="container">
-      <ng-content select="[container-top"></ng-content>
+      <ng-content select="[container-top]"></ng-content>
       <router-outlet></router-outlet>
-      <ng-content select="[container-bottom"></ng-content>
+      <ng-content select="[container-bottom]"></ng-content>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<mat-toolbar id="statusbar" color="primary"></mat-toolbar>
+<div class="statusbar"></div>

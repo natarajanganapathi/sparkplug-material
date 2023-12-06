@@ -11,6 +11,7 @@ ng generate component dropdown --standalone --flat --path src/material/dropdown
 
 1. [Create Standalone Components](https://sandroroth.com/blog/angular-library)
 2. [Create Angular Schematics](https://blog.angular.io/schematics-an-introduction-dc1dfbc2a2b2)
+3. [Angular 17 Control Flow (for, if)](https://www.techiediaries.com/angular-17-new-control-flow-examples/)
 
 ## Todo:
 

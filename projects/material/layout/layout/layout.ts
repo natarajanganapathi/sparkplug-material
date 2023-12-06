@@ -1,29 +1,17 @@
-import {
-  Component,
-  Inject,
-  InjectionToken,
-  Input,
-  Optional,
-  Output,
-  HostListener,
-  ElementRef,
-  EventEmitter,
-} from "@angular/core";
+import { Component, Input, HostListener, ElementRef } from "@angular/core";
+
 import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatButtonModule } from "@angular/material/button";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatIconModule } from "@angular/material/icon";
-
 import { MatExpansionModule } from "@angular/material/expansion";
 import { MatListModule } from "@angular/material/list";
-
 import { MatTreeModule } from "@angular/material/tree";
-
-import { RouterOutlet } from "@angular/router";
+import { RouterOutlet, RouterModule } from "@angular/router";
+import { MatTreeNestedDataSource } from "@angular/material/tree";
+import { MatMenuModule } from "@angular/material/menu";
 
 import { NestedTreeControl } from "@angular/cdk/tree";
-import { MatTreeNestedDataSource } from "@angular/material/tree";
-import { RouterModule } from "@angular/router";
 import { BooleanInput } from "@angular/cdk/coercion";
 
 export interface FtcLayoutMenu {
@@ -80,6 +68,7 @@ export interface FtcLayoutMenu {
     MatListModule,
     MatExpansionModule,
     MatTreeModule,
+    MatMenuModule,
     RouterModule,
   ],
   standalone: true,
@@ -106,6 +95,8 @@ export class FtcLayout {
     this.resizeHeight();
   }
 
+  ngAfterViewInit() {}
+
   hasChild = (_: number, node: FtcLayoutMenu) =>
     !!node.children && node.children.length > 0;
 
@@ -115,10 +106,10 @@ export class FtcLayout {
   }
 
   private resizeHeight(): void {
-    const container = this.elementRef.nativeElement
+    const layoutParentElement = this.elementRef.nativeElement
       .parentElement as HTMLElement;
-    if (container) {
-      container.style.maxHeight = `${window.innerHeight}px`;
+    if (layoutParentElement) {
+      layoutParentElement.style.maxHeight = `${window.innerHeight}px`;
     }
   }
 

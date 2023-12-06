@@ -26,12 +26,12 @@ export class AppComponent {
     {
       label: "Layout",
       route: "/pages/layout",
-      icon: "",
+      icon: "apps",
     },
     {
       label: "Notification",
       route: "/pages/notification",
-      icon: "",
+      icon: "notifications",
     },
     {
       label: "MenuDemo",
