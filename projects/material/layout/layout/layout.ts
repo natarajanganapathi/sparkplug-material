@@ -4,55 +4,9 @@ import { MatSidenavModule } from "@angular/material/sidenav";
 import { MatButtonModule } from "@angular/material/button";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatIconModule } from "@angular/material/icon";
-import { MatExpansionModule } from "@angular/material/expansion";
-import { MatListModule } from "@angular/material/list";
-import { MatTreeModule } from "@angular/material/tree";
 import { RouterOutlet, RouterModule } from "@angular/router";
-import { MatTreeNestedDataSource } from "@angular/material/tree";
-import { MatMenuModule } from "@angular/material/menu";
 
-import { NestedTreeControl } from "@angular/cdk/tree";
 import { BooleanInput } from "@angular/cdk/coercion";
-
-export interface FtcLayoutMenu {
-  label: string;
-  route?: string;
-  children?: FtcLayoutMenu[];
-  cssClass?: string;
-  icon?: string;
-  action?: string;
-}
-
-// const MENU_DATA_TREE: FtcLayoutMenu[] = [
-//   {
-//     label: "Dashboard",
-//     route: "/cds-summary",
-//   },
-//   {
-//     label: "Deployments",
-//     route: "/deployments",
-//     children: [
-//       { label: "QA1", route: "/qa1-deployment" },
-//       { label: "QA2", route: "/qa2-deployment" },
-//       { label: "QA3", route: "/qa3-deployment" },
-//     ],
-//   },
-// ];
-
-// export interface Menu {
-//   id: number;
-//   parentMenuId?: number | null;
-//   moduleId?: number | null;
-//   moduleCode?: string | null;
-//   menuCode?: string | null;
-//   parentMenuCode?: string | null;
-//   menuType?: string | null;
-//   menuPosition?: string | null;
-//   label?: string | null;
-//   sRef?: string | null;
-//   iconRef?: string | null;
-//   displayOrder?: number | null;
-// }
 
 @Component({
   selector: "ftc-layout",
@@ -65,40 +19,17 @@ export interface FtcLayoutMenu {
     MatToolbarModule,
     RouterOutlet,
     MatIconModule,
-    MatListModule,
-    MatExpansionModule,
-    MatTreeModule,
-    MatMenuModule,
     RouterModule,
   ],
   standalone: true,
-  outputs: ["trigger"],
 })
 export class FtcLayout {
-  dataSource = new MatTreeNestedDataSource<FtcLayoutMenu>();
-  treeControl = new NestedTreeControl<FtcLayoutMenu>((node) => node.children);
-
-  @Input() name: string = "";
-  @Input() navbarMenu: FtcLayoutMenu[] = [];
   @Input() fullscreen: BooleanInput;
-
-  // @Output() trigger: EventEmitter<FtcLayoutMenu> =
-  //   new EventEmitter<FtcLayoutMenu>();
-
-  constructor(private elementRef: ElementRef) {
-    // this.dataSource.data = this.navbarMenu;
-    this.treeControl.expansionModel.changed.subscribe((event: any) => {});
-  }
+  constructor(private elementRef: ElementRef) {}
 
   ngOnInit(): void {
-    this.dataSource.data = this.navbarMenu;
     this.resizeHeight();
   }
-
-  ngAfterViewInit() {}
-
-  hasChild = (_: number, node: FtcLayoutMenu) =>
-    !!node.children && node.children.length > 0;
 
   @HostListener("window:resize", ["$event"])
   onResize(event: Event): void {

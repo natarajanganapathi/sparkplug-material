@@ -1,65 +1,30 @@
 <mat-sidenav-container>
   <mat-sidenav mode="side" [opened]="true">
-    <ng-content select="[sidenav-top]"></ng-content>
-    <mat-menu></mat-menu>
-    <mat-tree [dataSource]="dataSource" [treeControl]="treeControl">
-      <mat-tree-node
-        *matTreeNodeDef="let node"
-        matTreeNodeToggle
-        routerLinkActive="active"
-      >
-        <button
-          mat-menu-item
-          [routerLink]="node.route"
-          [queryParams]="node.queryParams"
-        >
-          <mat-icon>{{ node.icon || 'star' }}</mat-icon>
-          {{ node.label }}
-        </button>
-      </mat-tree-node>
-
-      <mat-nested-tree-node *matTreeNodeDef="let node; when: hasChild">
-        <div class="mat-tree-node" matTreeNodeToggle routerLinkActive="active">
-          <button
-            mat-menu-item
-            [routerLink]="node.route"
-            [queryParams]="node.queryParams"
-            class="menu-item"
-          >
-            <mat-icon>{{ node.icon || 'star' }}</mat-icon>
-            <span>{{ node.label }}</span>
-              <mat-icon >
-                {{ treeControl.isExpanded(node) ? 'expand_more':'chevron_right'}}
-              </mat-icon>
-            <!-- <span>{{ treeControl.isExpanded(node) ? '▼': '►' }}</span> -->
-          </button>
-        </div>
-        <div [style.display]="treeControl.isExpanded(node) ? 'block' : 'none'">
-          <ng-container matTreeNodeOutlet></ng-container>
-        </div>
-      </mat-nested-tree-node>
-    </mat-tree>
-    <ng-content select="[sidenav-bottom]"></ng-content>
+    <div class="sidenav">
+      <ng-content select="[sidenav-top]"></ng-content>
+      <span class="y-spacer"></span>
+      <ng-content select="[sidenav-bottom]"></ng-content>
+    </div>
   </mat-sidenav>
+
   <mat-sidenav-content>
     <mat-toolbar>
       <ng-content select="[toolbar-left]"></ng-content>
-      <span>{{name}}</span>
-      <span class="spacer"></span>
-      <ng-content select="[toolbar-middle]"></ng-content>
-      <span class="spacer"></span>
+      <span class="x-spacer"></span>
+      <ng-content select="[toolbar-center]"></ng-content>
+      <span class="x-spacer"></span>
+      <ng-content select="[toolbar-right]"></ng-content>
       @if(fullscreen === "true") {
       <button mat-icon-button (click)="toggleFullScreen()">
         <mat-icon>fullscreen</mat-icon>
       </button>
       }
-      <ng-content select="[toolbar-right]"></ng-content>
     </mat-toolbar>
-    <div class="container">
-      <ng-content select="[container-top]"></ng-content>
+    <div class="content">
+      <ng-content select="[content-top]"></ng-content>
       <router-outlet></router-outlet>
-      <ng-content select="[container-bottom]"></ng-content>
+      <ng-content select="[content-bottom]"></ng-content>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<div class="statusbar"></div>
+<ng-content select="[statusbar]"></ng-content>

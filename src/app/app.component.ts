@@ -1,11 +1,11 @@
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterOutlet } from "@angular/router";
-import { FtcLayout, FtcLayoutMenu } from "@freshthought/material/layout";
+import { FtcLayout } from "@freshthought/material/layout";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 
-import { UserComponent } from "./user/user.component";
+import { UserComponent, FtcLayoutMenu } from "./user/user.component";
 
 @Component({
   selector: "app-root",
