@@ -1,9 +1,17 @@
-<ftc-layout fullscreen="true" leftSidenavMode="over">
+<ftc-layout fullscreen="true" leftSidenavMode="side" #layout
+rightSidenavWidthPx="250"
+>
   <span toolbar-left>Dashboard</span>
   <span toolbar-center>Dashboard Center</span>
+  <button toolbar-center mat-icon-button type="button" (click)="layout.toggleRightSidenav()">
+    <mat-icon>menu</mat-icon>
+  </button>
   <span toolbar-right>Dashboard Right</span>
 
-  <button left-sidenav-top mat-button type="button">SideNav Top </button>
-  <button left-sidenav-top mat-button type="button">SideNav Top</button>
-  <button left-sidenav-bottom mat-button type="button">SideNav Bottom</button>
+
+  <button left-sidenav-top mat-button type="button">Left SideNav Top </button>
+  <button left-sidenav-top mat-button type="button">Left SideNav Top</button>
+  <button left-sidenav-bottom mat-button type="button">Left SideNav Bottom</button>
+
+  <button right-sidenav-top mat-button type="button">Right SideNav Top </button>
 </ftc-layout>

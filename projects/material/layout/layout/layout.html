@@ -1,5 +1,10 @@
 <mat-sidenav-container>
-  <mat-sidenav #leftSideNav [mode]="leftSidenavMode" [opened]="isLeftOpened">
+  <mat-sidenav
+    #leftSideNav
+    [mode]="leftSidenavMode"
+    [opened]="isLeftOpened()"
+    [style.width.px]="leftSidenavWidth()"
+  >
     <div class="sidenav">
       <ng-content select="[left-sidenav-top]"></ng-content>
       <span class="y-spacer"></span>
@@ -7,9 +12,25 @@
     </div>
   </mat-sidenav>
 
-  <mat-sidenav-content [@contentMarginLeft]="contentMarginLeft">
+  <mat-sidenav
+    #rightSideNav
+    [mode]="rightSidenavMode"
+    [opened]="isRightOpened"
+    position="end"
+    [style.width.px]="rightSidenavWidthPx"
+  >
+    <div class="sidenav">
+      <ng-content select="[right-sidenav-top]"></ng-content>
+      <span class="y-spacer"></span>
+      <ng-content select="[right-sidenav-bottom]"></ng-content>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content
+    [@contentMarginLeft]="{value: contentMarginLeft(), params: leftSidenavMinMaxWidth}"
+  >
     <mat-toolbar>
-      <button mat-icon-button (click)="toggleSidenav(leftSideNav, leftSidenavWidth)">
+      <button mat-icon-button (click)="toggleLeftSidenav()">
         <mat-icon>menu</mat-icon>
       </button>
       <ng-content select="[toolbar-left]"></ng-content>

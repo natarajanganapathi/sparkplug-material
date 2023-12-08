@@ -4,10 +4,11 @@ import {
   HostListener,
   ElementRef,
   booleanAttribute,
+  numberAttribute,
   ViewChild,
-  AfterViewInit,
-  Renderer2
+  signal,
 } from "@angular/core";
+import { CommonModule } from "@angular/common";
 import {
   trigger,
   state,
@@ -38,67 +39,68 @@ import { RouterOutlet, RouterModule } from "@angular/router";
     RouterOutlet,
     MatIconModule,
     RouterModule,
+    CommonModule,
   ],
   standalone: true,
   animations: [
     trigger("contentMarginLeft", [
       state("false", style({ marginLeft: "{{minWidthPx}}" }), {
-        params: { minWidthPx: "1px" },
+        params: { minWidthPx: "0px" },
       }),
       state("true", style({ marginLeft: "{{maxWidthPx}}" }), {
-        params: { maxWidthPx: "1px" },
+        params: { maxWidthPx: "0px" },
       }),
       transition("false <=> true", animate("0.3s ease-in-out")),
     ]),
   ],
 })
-export class FtcLayout implements AfterViewInit {
+export class FtcLayout {
   @Input() leftSidenavMode: MatDrawerMode = "side";
+  @Input() rightSidenavMode: MatDrawerMode = "over";
 
   _leftSidenavMinWidthPx: number = 75;
-  @Input() get leftSidenavMinWidthPx(): number {
+  @Input({ transform: numberAttribute }) get leftSidenavMinWidthPx(): number {
     return this.leftSidenavMode === "side" ? this._leftSidenavMinWidthPx : 0;
   }
   set leftSidenavMinWidthPx(value: number) {
     this._leftSidenavMinWidthPx = value;
   }
 
-  @Input() leftSidenavMaxWidthPx: number = 300;
+  @Input({ transform: numberAttribute }) leftSidenavMaxWidthPx: number = 250;
+  @Input({ transform: numberAttribute }) rightSidenavWidthPx: number = 250;
   @Input({ transform: booleanAttribute }) fullscreen: boolean = false;
-  @ViewChild("leftSideNav") leftSideNav?: MatSidenav;
+  @ViewChild("leftSideNav") leftSidenav?: MatSidenav;
+  @ViewChild("rightSideNav") rightSidenav?: MatSidenav;
 
-  get isLeftOpened(): boolean {
-    return this.leftSidenavMode === "side";
-  }
-  // leftSidenavWidthTest:number = 1;
+  isLeftOpened = signal(this.leftSidenavMode === "side");
 
-  get leftSidenavWidth(): { min: number; max: number } {
-    return {
-      min: this.leftSidenavMinWidthPx,
-      max: this.leftSidenavMaxWidthPx,
-    };
+  get isRightOpened(): boolean {
+    return false;
   }
 
-  get contentMarginLeft() {
-    return {
-      value: this.leftSideNav?._getWidth() === this.leftSidenavMaxWidthPx,
-      params: {
-        minWidthPx: `${this.leftSidenavMinWidthPx}px`,
-        maxWidthPx: `${this.leftSidenavMaxWidthPx}px`,
-      },
-    };
-  }
+  leftSidenavWidth = signal(
+    this.leftSidenavMode === "side" ? this.leftSidenavMaxWidthPx : 0
+  );
+  leftSidenavMinMaxWidth = {
+    minWidthPx: `${this.leftSidenavMinWidthPx}px`,
+    maxWidthPx: `${this.leftSidenavMaxWidthPx}px`,
+  };
+  rightSidenavWidth: number = 0;
+  contentMarginLeft = signal(!this.isLeftOpened());
 
-  constructor(private elementRef: ElementRef, private renderer: Renderer2) {}
+  constructor(private elementRef: ElementRef) {}
 
   ngOnInit(): void {
+    this.leftSidenavMinWidthPx = this.leftSidenavMode === "side" ? this._leftSidenavMinWidthPx : 0;
+    this.leftSidenavMinMaxWidth = {
+      minWidthPx: `${this.leftSidenavMinWidthPx}px`,
+      maxWidthPx: `${this.leftSidenavMaxWidthPx}px`,
+    };
+    this.isLeftOpened.set(this.leftSidenavMode === "side");
+    this.contentMarginLeft.set(this.isLeftOpened());
     this.resizeHeight();
   }
-  ngAfterViewInit(): void {
-    if (this.isLeftOpened) {
-      this.setSidenavWidth(this.leftSideNav!, this.leftSidenavMaxWidthPx);
-    }
-  }
+
   @HostListener("window:resize", ["$event"])
   onResize(event: Event): void {
     this.resizeHeight();
@@ -111,18 +113,21 @@ export class FtcLayout implements AfterViewInit {
       layoutParentElement.style.maxHeight = `${window.innerHeight}px`;
     }
   }
-  toggleSidenav(sidenav: MatSidenav, width: { min: number; max: number }) {
-    if (sidenav.mode === "side") {
-      var value = sidenav._getWidth() === width.min ? width.max : width.min;
-      this.setSidenavWidth(sidenav, value);
+  toggleLeftSidenav() {
+    if (this.leftSidenav?.mode === "side") {
+      this.leftSidenavWidth.update((value) => {
+        return value === this.leftSidenavMaxWidthPx
+          ? this.leftSidenavMinWidthPx
+          : this.leftSidenavMaxWidthPx;
+      });
+      this.contentMarginLeft.update((value) => !value);
     } else {
-      sidenav.toggle();
+      this.leftSidenav?.toggle();
     }
   }
-  setSidenavWidth(sidenav: MatSidenav, width: number) {
-    // sidenav._content.nativeElement.style.width = `${width}px`;
-    // this.renderer.setStyle(sidenav._content.nativeElement, 'width', `${width}px`);
-    sidenav._content.nativeElement.style.setProperty('width', `${width}px`);
+
+  toggleRightSidenav() {
+    this.rightSidenav?.toggle();
   }
 
   toggleFullScreen() {
