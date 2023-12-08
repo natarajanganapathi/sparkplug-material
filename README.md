@@ -16,7 +16,13 @@ ng generate component dropdown --standalone --flat --path src/material/dropdown
 ## Todo:
 
 1. Husky setup
-2. Publish to npm registry pipeline in Azure DevOps
+2. Publish to npm registry pipeline in github packages - Done
 3. Create custome Schematics
-4. Setup the pipeline for CI and Publish the components and schematics to npm registry
-5. 
+4. Setup the pipeline for CI and Publish the components and schematics to npm registry - Done
+5. Create Action Bar component - Manikandan
+6. Create Breadcremp Component - Manikandan
+7. Create JsonForm Component - Manikandan
+8. Create Theme / Load dynamic theme  - Manikandan
+8. Create Grid Component
+9. Create popup Component
+10. Create Button with waiting for response

@@ -1,15 +1,15 @@
 <mat-sidenav-container>
-  <mat-sidenav [mode]="mode" [style.width]="sidenavWidth" [opened]="opened" #sidenav>
+  <mat-sidenav #leftSideNav [mode]="leftSidenavMode" [opened]="isLeftOpened">
     <div class="sidenav">
-      <ng-content select="[sidenav-top]"></ng-content>
+      <ng-content select="[left-sidenav-top]"></ng-content>
       <span class="y-spacer"></span>
-      <ng-content select="[sidenav-bottom]"></ng-content>
+      <ng-content select="[left-sidenav-bottom]"></ng-content>
     </div>
   </mat-sidenav>
 
-  <mat-sidenav-content>
+  <mat-sidenav-content [@contentMarginLeft]="contentMarginLeft">
     <mat-toolbar>
-      <button mat-icon-button (click)="toggleSidenav()">
+      <button mat-icon-button (click)="toggleSidenav(leftSideNav, leftSidenavWidth)">
         <mat-icon>menu</mat-icon>
       </button>
       <ng-content select="[toolbar-left]"></ng-content>
@@ -17,7 +17,7 @@
       <ng-content select="[toolbar-center]"></ng-content>
       <span class="x-spacer"></span>
       <ng-content select="[toolbar-right]"></ng-content>
-      @if(fullscreen === "true") {
+      @if(fullscreen) {
       <button mat-icon-button (click)="toggleFullScreen()">
         <mat-icon>fullscreen</mat-icon>
       </button>
