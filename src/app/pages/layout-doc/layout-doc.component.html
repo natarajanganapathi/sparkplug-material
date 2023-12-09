@@ -1,0 +1,37 @@
+<h3> Layout Component Documents</h3>
+
+<h4> Properties</h4>
+
+<pre>
+    fullscreen="true"               -> 
+    leftSidenavMode="side"          -> 
+    leftSidenavMinWidthPx="75"      -> 
+    leftSidenavMaxWidthPx="250"     -> 
+    rightSidenavMode="over"         ->
+    rightSidenavMinWidthPx="75"     ->
+    rightSidenavMaxWidthPx="250"    ->
+</pre>
+
+<h4> Demo </h4>
+
+
+<ftc-layout #layout fullscreen="true" [style.width.px]="1000" [style.height.px]="600"
+leftSidenavMode="side" leftSidenavMinWidthPx="75" leftSidenavMaxWidthPx="250" 
+rightSidenavMode="over" rightSidenavMaxWidthPx="250"
+>
+  <span toolbar-left>Left</span>
+  <span toolbar-center>Center</span>
+
+  <span toolbar-right>Right</span>
+
+  <button left-sidenav-top mat-button type="button">Top 1</button>
+  <button left-sidenav-top mat-button type="button">Top 2</button>
+  
+  <button left-sidenav-bottom mat-button type="button">Bottom</button>
+
+  <button content-top mat-button type="button">Top</button>
+  <!--<button content-bottom mat-button type="button">Bottom</button> -->
+
+  <button right-sidenav-top mat-button type="button">Top </button>
+  <button right-sidenav-bottom mat-button type="button">Bottom </button>
+</ftc-layout>

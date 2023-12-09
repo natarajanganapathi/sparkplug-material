@@ -1,8 +1,8 @@
 import { Routes } from "@angular/router";
-import { UserComponent } from "./user/user.component";
+import { LayoutDocComponent } from "./pages/layout-doc/layout-doc.component";
+import { GetStartedComponent } from "./pages/get-started/get-started.component";
 
 export const routes: Routes = [
-  { path: "", redirectTo: "user", pathMatch: "full" },
   // {
   //   path: '',
   //   loadChildren: () =>
@@ -10,6 +10,14 @@ export const routes: Routes = [
   //       (m) => m.LayoutModule
   //     ),
   // },
-  { path: "user", component: UserComponent },
-  { path: "**", redirectTo: "user" },
+  { path: "", redirectTo: "pages", pathMatch: "full" },
+  {
+    path: "pages",
+    children: [
+      { path: "", redirectTo: "get-started", pathMatch: "full" },
+      { path: "get-started", component: GetStartedComponent },
+      { path: "layout-doc", component: LayoutDocComponent },
+    ],
+  },
+  { path: "**", redirectTo: "pages" },
 ];

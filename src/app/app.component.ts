@@ -5,7 +5,8 @@ import { FtcLayout } from "@freshthought/material/layout";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 
-import { UserComponent, FtcLayoutMenu } from "./user/user.component";
+import { SidemenuComponent } from "./common/sidemenu.component";
+import { LayoutDocComponent } from "./pages/layout-doc/layout-doc.component";
 
 @Component({
   selector: "app-root",
@@ -16,39 +17,11 @@ import { UserComponent, FtcLayoutMenu } from "./user/user.component";
     MatIconModule,
     FtcLayout,
     MatButtonModule,
-    UserComponent,
+    SidemenuComponent,
+    LayoutDocComponent
   ],
   templateUrl: "app.component.html",
   styleUrl: "app.component.scss",
 })
 export class AppComponent {
-  layoutMenu: FtcLayoutMenu[] = [
-    {
-      label: "Layout",
-      route: "/pages/layout",
-      icon: "apps",
-    },
-    {
-      label: "Notification",
-      route: "/pages/notification",
-      icon: "notifications",
-    },
-    {
-      label: "MenuDemo",
-      children: [
-        { label: "Sub Menu 1", route: "/qa1-deployment", icon: "" },
-        { label: "Sub Menu 2", route: "/qa2-deployment", icon: "" },
-        {
-          label: "Sub Menu 3",
-          route: "/qa3-deployment",
-          icon: "",
-          children: [
-            { label: "Sub Menu 1", route: "/qa1-deployment", icon: "" },
-            { label: "Sub Menu 2", route: "/qa2-deployment", icon: "" },
-            { label: "Sub Menu 3", route: "/qa3-deployment", icon: "" },
-          ],
-        },
-      ],
-    },
-  ];
 }
