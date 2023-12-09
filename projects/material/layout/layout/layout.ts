@@ -52,7 +52,16 @@ declare type MinMaxWidth = { minWidth: string; maxWidth: string };
       state("true", style({ marginLeft: "{{maxWidth}}" }), {
         params: { maxWidth: "0px" },
       }),
-      transition("false <=> true", animate("0.3s ease-in-out")),
+      transition("true <=> false", animate("0.3s ease-in-out")),
+    ]),
+    trigger("contentMarginRight", [
+      state("false", style({ marginRight: "{{minWidth}}" }), {
+        params: { minWidth: "0px" },
+      }),
+      state("true", style({ marginRight: "{{maxWidth}}" }), {
+        params: { maxWidth: "0px" },
+      }),
+      transition("true <=> false", animate("0.3s ease-in-out")),
     ]),
   ],
 })
@@ -62,19 +71,26 @@ export class FtcLayout {
 
   @Input({ transform: numberAttribute }) leftSidenavMinWidthPx: number = 75;
   @Input({ transform: numberAttribute }) leftSidenavMaxWidthPx: number = 250;
-  @Input({ transform: numberAttribute }) rightSidenavWidthPx: number = 250;
-  
+
+  @Input({ transform: numberAttribute }) rightSidenavMinWidthPx: number = 75;
+  @Input({ transform: numberAttribute }) rightSidenavMaxWidthPx: number = 250;
+
   @Input({ transform: booleanAttribute }) fullscreen: boolean = false;
 
   @ViewChild("leftSideNav") leftSidenav?: MatSidenav;
   @ViewChild("rightSideNav") rightSidenav?: MatSidenav;
 
-  isLeftOpened = signal(this.leftSidenavMode === "side");
-  isRightOpened = signal(false);
-  leftSidenavWidth = signal(this.leftSidenavMaxWidthPx);
-  contentMarginLeft = signal(!this.isLeftOpened());
+  leftAlwaysOpened = signal(false);
+  rightAlwaysOpened = signal(false);
+
+  leftSidenavWidth = signal(0);
+  rightSidenavWidth = signal(0);
+
+  contentMarginLeft = signal(true);
+  contentMarginRight = signal(true);
 
   leftSidenavMinMaxWidth: MinMaxWidth = { minWidth: `0px`, maxWidth: `0px` };
+  rightSidenavMinMaxWidth: MinMaxWidth = { minWidth: `0px`, maxWidth: `0px` };
 
   constructor(private elementRef: ElementRef) {}
 
@@ -85,9 +101,27 @@ export class FtcLayout {
       minWidth: `${this.leftSidenavMinWidthPx}px`,
       maxWidth: `${this.leftSidenavMaxWidthPx}px`,
     };
-    this.isLeftOpened.set(this.leftSidenavMode === "side");
+
+    this.rightSidenavMinWidthPx =
+      this.rightSidenavMode === "side" ? this.rightSidenavMinWidthPx : 0;
+    this.rightSidenavMinMaxWidth = {
+      minWidth: `${this.rightSidenavMinWidthPx}px`,
+      maxWidth: `${this.rightSidenavMaxWidthPx}px`,
+    };
+
+    this.leftAlwaysOpened.set(
+      this.leftSidenavMode === "side" && this.leftSidenavMinWidthPx > 0
+    );
+
+    this.rightAlwaysOpened.set(
+      this.rightSidenavMode === "side" && this.rightSidenavMinWidthPx > 0
+    );
+
     this.leftSidenavWidth.set(this.leftSidenavMaxWidthPx);
-    this.contentMarginLeft.set(this.isLeftOpened());
+    this.rightSidenavWidth.set(this.rightSidenavMaxWidthPx);
+
+    this.contentMarginLeft.set(this.leftAlwaysOpened());
+    this.contentMarginRight.set(this.rightAlwaysOpened());
     this.resizeHeight();
   }
 
@@ -103,21 +137,31 @@ export class FtcLayout {
       layoutParentElement.style.maxHeight = `${window.innerHeight}px`;
     }
   }
+
   toggleLeftSidenav() {
-    if (this.leftSidenav?.mode === "side") {
-      this.leftSidenavWidth.update((value) => {
-        return value === this.leftSidenavMaxWidthPx
-          ? this.leftSidenavMinWidthPx
-          : this.leftSidenavMaxWidthPx;
-      });
+    if (this.leftAlwaysOpened()) {
       this.contentMarginLeft.update((value) => !value);
+      this.leftSidenavWidth.set(
+        this.contentMarginLeft()
+          ? this.leftSidenavMaxWidthPx
+          : this.leftSidenavMinWidthPx
+      );
     } else {
       this.leftSidenav?.toggle();
     }
   }
 
   toggleRightSidenav() {
-    this.rightSidenav?.toggle();
+    if (this.rightAlwaysOpened()) {
+      this.contentMarginRight.update((value) => !value);
+      this.rightSidenavWidth.set(
+        this.contentMarginRight()
+          ? this.rightSidenavMaxWidthPx
+          : this.rightSidenavMinWidthPx
+      );
+    } else {
+      this.rightSidenav?.toggle();
+    }
   }
 
   toggleFullScreen() {

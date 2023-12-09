@@ -2,7 +2,7 @@
   <mat-sidenav
     #leftSideNav
     [mode]="leftSidenavMode"
-    [opened]="isLeftOpened()"
+    [opened]="leftAlwaysOpened()"
     [style.width.px]="leftSidenavWidth()"
   >
     <div class="sidenav">
@@ -15,9 +15,9 @@
   <mat-sidenav
     #rightSideNav
     [mode]="rightSidenavMode"
-    [opened]="isRightOpened()"
+    [opened]="rightAlwaysOpened()"
     position="end"
-    [style.width.px]="rightSidenavWidthPx"
+    [style.width.px]="rightSidenavWidth()"
   >
     <div class="sidenav">
       <ng-content select="[right-sidenav-top]"></ng-content>
@@ -28,6 +28,7 @@
 
   <mat-sidenav-content
     [@contentMarginLeft]="{value: contentMarginLeft(), params: leftSidenavMinMaxWidth}"
+    [@contentMarginRight]="{value: contentMarginRight(), params: rightSidenavMinMaxWidth}"
   >
     <mat-toolbar>
       <button mat-icon-button (click)="toggleLeftSidenav()">
