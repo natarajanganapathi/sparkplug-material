@@ -1,3 +1,4 @@
+<ng-content select="[toolbar]"></ng-content>
 <mat-sidenav-container>
   <mat-sidenav
     #leftSideNav
@@ -30,7 +31,7 @@
     [@contentMarginLeft]="{value: contentMarginLeft(), params: leftSidenavMinMaxWidth}"
     [@contentMarginRight]="{value: contentMarginRight(), params: rightSidenavMinMaxWidth}"
   >
-    <mat-toolbar>
+    <!-- <mat-toolbar>
       <button mat-icon-button (click)="toggleLeftSidenav()">
         <mat-icon>menu</mat-icon>
       </button>
@@ -44,8 +45,9 @@
         <mat-icon>fullscreen</mat-icon>
       </button>
       }
-    </mat-toolbar>
-    <div class="content">
+    </mat-toolbar> -->
+    
+    <div class="content y-spacer">
       <ng-content select="[content-top]"></ng-content>
       <router-outlet></router-outlet>
       <ng-content select="[content-bottom]"></ng-content>
