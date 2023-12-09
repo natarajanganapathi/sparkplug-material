@@ -27,6 +27,8 @@ import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatIconModule } from "@angular/material/icon";
 import { RouterOutlet, RouterModule } from "@angular/router";
 
+declare type MinMaxWidth = { minWidth: string; maxWidth: string };
+
 @Component({
   selector: "ftc-layout",
   templateUrl: "layout.html",
@@ -44,11 +46,11 @@ import { RouterOutlet, RouterModule } from "@angular/router";
   standalone: true,
   animations: [
     trigger("contentMarginLeft", [
-      state("false", style({ marginLeft: "{{minWidthPx}}" }), {
-        params: { minWidthPx: "0px" },
+      state("false", style({ marginLeft: "{{minWidth}}" }), {
+        params: { minWidth: "0px" },
       }),
-      state("true", style({ marginLeft: "{{maxWidthPx}}" }), {
-        params: { maxWidthPx: "0px" },
+      state("true", style({ marginLeft: "{{maxWidth}}" }), {
+        params: { maxWidth: "0px" },
       }),
       transition("false <=> true", animate("0.3s ease-in-out")),
     ]),
@@ -58,45 +60,33 @@ export class FtcLayout {
   @Input() leftSidenavMode: MatDrawerMode = "side";
   @Input() rightSidenavMode: MatDrawerMode = "over";
 
-  _leftSidenavMinWidthPx: number = 75;
-  @Input({ transform: numberAttribute }) get leftSidenavMinWidthPx(): number {
-    return this.leftSidenavMode === "side" ? this._leftSidenavMinWidthPx : 0;
-  }
-  set leftSidenavMinWidthPx(value: number) {
-    this._leftSidenavMinWidthPx = value;
-  }
-
+  @Input({ transform: numberAttribute }) leftSidenavMinWidthPx: number = 75;
   @Input({ transform: numberAttribute }) leftSidenavMaxWidthPx: number = 250;
   @Input({ transform: numberAttribute }) rightSidenavWidthPx: number = 250;
+  
   @Input({ transform: booleanAttribute }) fullscreen: boolean = false;
+
   @ViewChild("leftSideNav") leftSidenav?: MatSidenav;
   @ViewChild("rightSideNav") rightSidenav?: MatSidenav;
 
   isLeftOpened = signal(this.leftSidenavMode === "side");
-
-  get isRightOpened(): boolean {
-    return false;
-  }
-
-  leftSidenavWidth = signal(
-    this.leftSidenavMode === "side" ? this.leftSidenavMaxWidthPx : 0
-  );
-  leftSidenavMinMaxWidth = {
-    minWidthPx: `${this.leftSidenavMinWidthPx}px`,
-    maxWidthPx: `${this.leftSidenavMaxWidthPx}px`,
-  };
-  rightSidenavWidth: number = 0;
+  isRightOpened = signal(false);
+  leftSidenavWidth = signal(this.leftSidenavMaxWidthPx);
   contentMarginLeft = signal(!this.isLeftOpened());
+
+  leftSidenavMinMaxWidth: MinMaxWidth = { minWidth: `0px`, maxWidth: `0px` };
 
   constructor(private elementRef: ElementRef) {}
 
   ngOnInit(): void {
-    this.leftSidenavMinWidthPx = this.leftSidenavMode === "side" ? this._leftSidenavMinWidthPx : 0;
+    this.leftSidenavMinWidthPx =
+      this.leftSidenavMode === "side" ? this.leftSidenavMinWidthPx : 0;
     this.leftSidenavMinMaxWidth = {
-      minWidthPx: `${this.leftSidenavMinWidthPx}px`,
-      maxWidthPx: `${this.leftSidenavMaxWidthPx}px`,
+      minWidth: `${this.leftSidenavMinWidthPx}px`,
+      maxWidth: `${this.leftSidenavMaxWidthPx}px`,
     };
     this.isLeftOpened.set(this.leftSidenavMode === "side");
+    this.leftSidenavWidth.set(this.leftSidenavMaxWidthPx);
     this.contentMarginLeft.set(this.isLeftOpened());
     this.resizeHeight();
   }
