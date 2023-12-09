@@ -19,10 +19,17 @@
 leftSidenavMode="side" leftSidenavMinWidthPx="75" leftSidenavMaxWidthPx="250" 
 rightSidenavMode="over" rightSidenavMaxWidthPx="250"
 >
-  <span toolbar-left>Left</span>
-  <span toolbar-center>Center</span>
-
-  <span toolbar-right>Right</span>
+  <mat-toolbar color="primary"  content-top>
+    <button mat-icon-button (click)="layout.toggleLeftSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Layout Component Documet</span>
+    <span class="x-spacer"></span>
+    <button mat-icon-button (click)="layout.toggleFullScreen()">
+      <mat-icon>fullscreen</mat-icon>
+    </button>
+  </mat-toolbar>
+  
 
   <button left-sidenav-top mat-button type="button">Top 1</button>
   <button left-sidenav-top mat-button type="button">Top 2</button>
@@ -30,7 +37,7 @@ rightSidenavMode="over" rightSidenavMaxWidthPx="250"
   <button left-sidenav-bottom mat-button type="button">Bottom</button>
 
   <button content-top mat-button type="button">Top</button>
-  <!--<button content-bottom mat-button type="button">Bottom</button> -->
+  <!-- <button content-bottom mat-button type="button">Bottom</button> -->
 
   <button right-sidenav-top mat-button type="button">Top </button>
   <button right-sidenav-bottom mat-button type="button">Bottom </button>

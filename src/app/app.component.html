@@ -5,25 +5,15 @@
   leftSidenavMinWidthPx="75"
   leftSidenavMaxWidthPx="250"
 >
-  <span toolbar-left>Fresh Thought Components Document</span>
+  <mat-toolbar content-top>
+    <button mat-icon-button (click)="layout.toggleLeftSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Fresh Thought Components Document</span>
+    <span class="x-spacer"></span>
+    <button mat-icon-button (click)="layout.toggleFullScreen()">
+      <mat-icon>fullscreen</mat-icon>
+    </button>
+  </mat-toolbar>
   <ftc-sidemenu left-sidenav-top></ftc-sidemenu>
 </ftc-layout>
-
-<!-- <ftc-layout #layout fullscreen="true"
-leftSidenavMode="over" leftSidenavMinWidthPx="75" leftSidenavMaxWidthPx="250" 
-rightSidenavMode="over" rightSidenavMaxWidthPx="250"
->
-  <span toolbar-left>Dashboard</span>
-  <span toolbar-center>Dashboard Center</span>
-  <button toolbar-center mat-icon-button type="button" (click)="layout.toggleRightSidenav()">
-    <mat-icon>menu</mat-icon>
-  </button>
-  <span toolbar-right>Dashboard Right</span>
-
-  <button left-sidenav-top mat-button type="button">Left SideNav Top </button>
-  <button left-sidenav-top mat-button type="button">Left SideNav Top</button>
-  <button left-sidenav-bottom mat-button type="button">Left SideNav Bottom</button>
-
-  <button right-sidenav-top mat-button type="button">Right SideNav Top </button>
-  <button right-sidenav-bottom mat-button type="button">Right SideNav Bottom </button>
-</ftc-layout> -->

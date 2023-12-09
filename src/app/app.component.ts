@@ -4,6 +4,7 @@ import { RouterOutlet } from "@angular/router";
 import { FtcLayout } from "@freshthought/material/layout";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
+import { MatToolbarModule } from "@angular/material/toolbar";
 
 import { SidemenuComponent } from "./common/sidemenu.component";
 import { LayoutDocComponent } from "./pages/layout-doc/layout-doc.component";
@@ -17,6 +18,7 @@ import { LayoutDocComponent } from "./pages/layout-doc/layout-doc.component";
     MatIconModule,
     FtcLayout,
     MatButtonModule,
+    MatToolbarModule,
     SidemenuComponent,
     LayoutDocComponent
   ],
