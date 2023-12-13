@@ -1,7 +1,6 @@
 import {
   Component,
   Input,
-  HostListener,
   ElementRef,
   booleanAttribute,
   numberAttribute,
@@ -122,21 +121,21 @@ export class FtcLayout {
 
     this.contentMarginLeft.set(this.leftAlwaysOpened());
     this.contentMarginRight.set(this.rightAlwaysOpened());
-    this.resizeHeight();
+    // this.resizeHeight();
   }
 
-  @HostListener("window:resize", ["$event"])
-  onResize(event: Event): void {
-    this.resizeHeight();
-  }
+  // @HostListener("window:resize", ["$event"])
+  // onResize(event: Event): void {
+  //   this.resizeHeight();
+  // }
 
-  resizeHeight(): void {
-    const layoutParentElement = this.elementRef.nativeElement
-      .parentElement as HTMLElement;
-    if (layoutParentElement) {
-      layoutParentElement.style.maxHeight = `${window.innerHeight}px`;
-    }
-  }
+  // resizeHeight(): void {
+  //   const layoutParentElement = this.elementRef.nativeElement
+  //     .parentElement as HTMLElement;
+  //   if (layoutParentElement) {
+  //     layoutParentElement.style.maxHeight = `${window.innerHeight}px`;
+  //   }
+  // }
 
   toggleLeftSidenav() {
     if (this.leftAlwaysOpened()) {

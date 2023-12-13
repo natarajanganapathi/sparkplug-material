@@ -31,25 +31,11 @@
     [@contentMarginLeft]="{value: contentMarginLeft(), params: leftSidenavMinMaxWidth}"
     [@contentMarginRight]="{value: contentMarginRight(), params: rightSidenavMinMaxWidth}"
   >
-    <!-- <mat-toolbar>
-      <button mat-icon-button (click)="toggleLeftSidenav()">
-        <mat-icon>menu</mat-icon>
-      </button>
-      <ng-content select="[toolbar-left]"></ng-content>
-      <span class="x-spacer"></span>
-      <ng-content select="[toolbar-center]"></ng-content>
-      <span class="x-spacer"></span>
-      <ng-content select="[toolbar-right]"></ng-content>
-      @if(fullscreen) {
-      <button mat-icon-button (click)="toggleFullScreen()">
-        <mat-icon>fullscreen</mat-icon>
-      </button>
-      }
-    </mat-toolbar> -->
-    
-    <div class="content y-spacer">
+    <div class="content">
       <ng-content select="[content-top]"></ng-content>
-      <router-outlet></router-outlet>
+      <div class="outlet">
+        <router-outlet></router-outlet>
+      </div>
       <ng-content select="[content-bottom]"></ng-content>
     </div>
   </mat-sidenav-content>
