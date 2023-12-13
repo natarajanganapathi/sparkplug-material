@@ -1,4 +1,4 @@
-<ng-content select="[toolbar]"></ng-content>
+<ng-content select="[ftc-toolbar]"></ng-content>
 <mat-sidenav-container>
   <mat-sidenav
     #leftSideNav
@@ -7,9 +7,9 @@
     [style.width.px]="leftSidenavWidth()"
   >
     <div class="sidenav">
-      <ng-content select="[left-sidenav-top]"></ng-content>
+      <ng-content select="[ftc-left-sidenav-top]"></ng-content>
       <span class="y-spacer"></span>
-      <ng-content select="[left-sidenav-bottom]"></ng-content>
+      <ng-content select="[ftc-left-sidenav-bottom]"></ng-content>
     </div>
   </mat-sidenav>
 
@@ -21,9 +21,9 @@
     [style.width.px]="rightSidenavWidth()"
   >
     <div class="sidenav">
-      <ng-content select="[right-sidenav-top]"></ng-content>
+      <ng-content select="[ftc-right-sidenav-top]"></ng-content>
       <span class="y-spacer"></span>
-      <ng-content select="[right-sidenav-bottom]"></ng-content>
+      <ng-content select="[ftc-right-sidenav-bottom]"></ng-content>
     </div>
   </mat-sidenav>
 
@@ -32,12 +32,12 @@
     [@contentMarginRight]="{value: contentMarginRight(), params: rightSidenavMinMaxWidth}"
   >
     <div class="content">
-      <ng-content select="[content-top]"></ng-content>
+      <ng-content select="[ftc-content-top]"></ng-content>
       <div class="outlet">
         <router-outlet></router-outlet>
       </div>
-      <ng-content select="[content-bottom]"></ng-content>
+      <ng-content select="[ftc-content-bottom]"></ng-content>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-<ng-content select="[statusbar]"></ng-content>
+<ng-content select="[ftc-statusbar]"></ng-content>

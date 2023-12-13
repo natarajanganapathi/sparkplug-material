@@ -1,11 +1,10 @@
 <ftc-layout
   #layout
-  fullscreen="true"
   leftSidenavMode="side"
   leftSidenavMinWidthPx="75"
   leftSidenavMaxWidthPx="250"
 >
-  <mat-toolbar content-top>
+  <mat-toolbar ftc-content-top>
     <button mat-icon-button (click)="layout.toggleLeftSidenav()">
       <mat-icon>menu</mat-icon>
     </button>
@@ -15,8 +14,8 @@
       <mat-icon>fullscreen</mat-icon>
     </button>
   </mat-toolbar>
-  <ftc-sidemenu left-sidenav-top></ftc-sidemenu>
-  <mat-toolbar content-bottom>
+  <ftc-sidemenu ftc-left-sidenav-top></ftc-sidemenu>
+  <mat-toolbar ftc-content-bottom>
     <span>Layout Component Content Bottom</span>
   </mat-toolbar>
 </ftc-layout>

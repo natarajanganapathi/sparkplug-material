@@ -74,7 +74,7 @@ export class FtcLayout {
   @Input({ transform: numberAttribute }) rightSidenavMinWidthPx: number = 75;
   @Input({ transform: numberAttribute }) rightSidenavMaxWidthPx: number = 250;
 
-  @Input({ transform: booleanAttribute }) fullscreen: boolean = false;
+  // @Input({ transform: booleanAttribute }) fullscreen: boolean = false;
 
   @ViewChild("leftSideNav") leftSidenav?: MatSidenav;
   @ViewChild("rightSideNav") rightSidenav?: MatSidenav;

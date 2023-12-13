@@ -3,7 +3,6 @@
 <h4>Properties</h4>
 
 <pre>
-    fullscreen="true"               -> 
     leftSidenavMode="side"          -> 
     leftSidenavMinWidthPx="75"      -> 
     leftSidenavMaxWidthPx="250"     -> 
@@ -26,7 +25,7 @@
     rightSidenavMode="over"
     rightSidenavMaxWidthPx="250"
   >
-    <mat-toolbar color="primary" toolbar>
+    <mat-toolbar color="primary" ftc-toolbar>
       <span>Layout Component Documet</span>
       <span class="x-spacer"></span>
       <button mat-icon-button (click)="layout.toggleFullScreen()">
@@ -34,7 +33,7 @@
       </button>
     </mat-toolbar>
 
-    <mat-toolbar color="primary" content-top>
+    <mat-toolbar color="primary" ftc-content-top>
       <button mat-icon-button (click)="layout.toggleLeftSidenav()">
         <mat-icon>menu</mat-icon>
       </button>
@@ -45,21 +44,21 @@
       </button>
     </mat-toolbar>
 
-    <button left-sidenav-top mat-button type="button">Menu 1</button>
-    <button left-sidenav-top mat-button type="button">Menu 2</button>
+    <button ftc-left-sidenav-top mat-button type="button">Menu 1</button>
+    <button ftc-left-sidenav-top mat-button type="button">Menu 2</button>
 
-    <button left-sidenav-bottom mat-button type="button">Profile</button>
+    <button ftc-left-sidenav-bottom mat-button type="button">Profile</button>
 
-    <button content-top mat-button type="button">Top Content 1</button>
-    <button content-top mat-button type="button">Top Content 2</button>
+    <button ftc-content-top mat-button type="button">Top Content 1</button>
+    <button ftc-content-top mat-button type="button">Top Content 2</button>
 
-    <button content-bottom mat-button type="button">Bottom Content</button>
+    <button ftc-content-bottom mat-button type="button">Bottom Content</button>
 
-    <button right-sidenav-top mat-button type="button">Option 1</button>
-    <button right-sidenav-top mat-button type="button">Option 2</button>
-    <button right-sidenav-bottom mat-button type="button">Notifications</button>
+    <button ftc-right-sidenav-top mat-button type="button">Option 1</button>
+    <button ftc-right-sidenav-top mat-button type="button">Option 2</button>
+    <button ftc-right-sidenav-bottom mat-button type="button">Notifications</button>
 
-    <mat-toolbar color="primary" statusbar>
+    <mat-toolbar color="primary" ftc-statusbar>
       <span>Statusbar</span>
     </mat-toolbar>
   </ftc-layout>
@@ -68,7 +67,7 @@
 <h4>Layout Demo 2</h4>
 
 <ftc-layout [style.width.px]="1000" [style.height.px]="600" #layout2>
-  <mat-toolbar color="primary" content-top>
+  <mat-toolbar color="primary" ftc-content-top>
     <button mat-icon-button (click)="layout2.toggleLeftSidenav()">
       <mat-icon>menu</mat-icon>
     </button>
@@ -79,23 +78,23 @@
     </button>
   </mat-toolbar>
 
-  <mat-toolbar color="primary" left-sidenav-top>
+  <mat-toolbar color="primary" ftc-left-sidenav-top>
     <span>Layout Sidenav Top</span>
   </mat-toolbar>
 
-  <button left-sidenav-top mat-button type="button">Menu 1</button>
-  <button left-sidenav-top mat-button type="button">Menu 2</button>
+  <button ftc-left-sidenav-top mat-button type="button">Menu 1</button>
+  <button ftc-left-sidenav-top mat-button type="button">Menu 2</button>
 
-  <button left-sidenav-bottom mat-button type="button">Profile</button>
+  <button ftc-left-sidenav-bottom mat-button type="button">Profile</button>
 
-  <button content-top mat-button type="button">Top Content 1</button>
-  <button content-bottom mat-button type="button">Bottom Content</button>
+  <button ftc-content-top mat-button type="button">Top Content 1</button>
+  <button ftc-content-bottom mat-button type="button">Bottom Content</button>
 
-  <button right-sidenav-top mat-button type="button">Option 1</button>
-  <button right-sidenav-top mat-button type="button">Option 2</button>
-  <button right-sidenav-bottom mat-button type="button">Notifications</button>
+  <button ftc-right-sidenav-top mat-button type="button">Option 1</button>
+  <button ftc-right-sidenav-top mat-button type="button">Option 2</button>
+  <button ftc-right-sidenav-bottom mat-button type="button">Notifications</button>
 
-  <mat-toolbar color="primary" content-bottom>
+  <mat-toolbar color="primary" ftc-content-bottom>
     <span>Layout Component Content Bottom</span>
   </mat-toolbar>
 </ftc-layout>
