@@ -11,8 +11,10 @@
     "watch": "ng build --watch --configuration development",
     "test": "ng test",
     "build:material": "ng build material",
+    "build:cdk": "ng build cdk",
     "pack:material": "cd dist/material && npm pack",
-    "doctor": "npm run build:material && npm run build"
+    "pack:cdk": "cd dist/cdk && npm pack",
+    "doctor": "npm run build:cdk && npm run build:material && npm run build"
   },
   "dependencies": {
     "@angular/animations": "^17.0.5",

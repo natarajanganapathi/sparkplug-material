@@ -13,6 +13,9 @@
       "paths": {
         "@freshthought/material/*": [
           "./projects/material/*"
+        ],
+        "@freshthought/cdk/*": [
+          "./projects/cdk/*"
         ]
       },
       "sourceMap": true,
