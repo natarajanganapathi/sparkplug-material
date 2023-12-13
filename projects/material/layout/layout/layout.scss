@@ -1,44 +1,28 @@
-:host {
+@mixin flex-column-fill {
     display: flex;
     flex-direction: column;
     height: 100%;
-    overflow: hidden !important;
+    overflow: hidden;
+}
 
+:host {
+    @include flex-column-fill;
     mat-sidenav-container {
         flex: 1;
         .mat-drawer-side {
             border-right: none;
         }
-
         mat-sidenav {
             transition: width 0.3s ease-in-out;
-
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            overflow: hidden;
-
+            @include flex-column-fill;
             .sidenav {
-                display: flex;
-                flex-direction: column;
-                min-height: 100%;
-                overflow: hidden;
+                @include flex-column-fill;
             }
         }
-
         mat-sidenav-content {
-            display: flex;
-            flex-direction: column;
-            height: 100%;
-            overflow: hidden;
-
+            @include flex-column-fill;
             .content {
-                display: flex;
-                flex-direction: column;
-                height: 100%;
-                overflow: hidden;
-
-
+                @include flex-column-fill;
                 .outlet {
                     flex: 1;
                     overflow-y: auto;
