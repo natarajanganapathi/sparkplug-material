@@ -33,3 +33,12 @@ ng generate service  --path projects/cdk/device
 8. Create Grid Component
 9. Create popup Component
 10. Create Button with waiting for response
+11. prettier --write setup
+
+
+## HUSKY setup
+
+1. install husky dotnet tool
+2. run `husky install` command
+3. add pre-commit commands.
+    ex. `husky add pre-commit -c "npm run doctor"`
