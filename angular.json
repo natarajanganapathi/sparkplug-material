@@ -133,7 +133,7 @@
     "cdk": {
       "projectType": "library",
       "root": "projects/cdk",
-      "sourceRoot": "projects/cdk/src",
+      "sourceRoot": "projects/cdk",
       "prefix": "cdk",
       "architect": {
         "build": {

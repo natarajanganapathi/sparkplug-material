@@ -1,10 +1,17 @@
 # freshthought-ui
 Angular Material Design Functional Components
 
+Generate new library
+
+```ts
+ng generate library cdk 
+```
+
 Generate new componant
 
 ```ts
 ng generate component dropdown --standalone --flat --path src/material/dropdown
+ng generate service  --path projects/cdk/device
 ```
 
 ## References

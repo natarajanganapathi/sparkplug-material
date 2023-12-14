@@ -7,7 +7,7 @@ import { BreakpointObserver } from "@angular/cdk/layout";
 export class CdkDevice {
   constructor(private breakpointObserver: BreakpointObserver) {}
 
-  isMobile(): boolean {
+  isHandset(): boolean {
     return this.breakpointObserver.isMatched("(max-width: 767px)");
   }
 

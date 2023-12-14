@@ -1,8 +1,6 @@
 import {
   Component,
   Input,
-  ElementRef,
-  booleanAttribute,
   numberAttribute,
   ViewChild,
   signal,
@@ -25,6 +23,12 @@ import { MatButtonModule } from "@angular/material/button";
 import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatIconModule } from "@angular/material/icon";
 import { RouterOutlet, RouterModule } from "@angular/router";
+import {
+  LayoutModule,
+  BreakpointObserver,
+  Breakpoints,
+} from "@angular/cdk/layout";
+import { Subject, takeUntil } from "rxjs";
 
 declare type MinMaxWidth = { minWidth: string; maxWidth: string };
 
@@ -41,6 +45,7 @@ declare type MinMaxWidth = { minWidth: string; maxWidth: string };
     MatIconModule,
     RouterModule,
     CommonModule,
+    LayoutModule,
   ],
   standalone: true,
   animations: [
@@ -65,16 +70,39 @@ declare type MinMaxWidth = { minWidth: string; maxWidth: string };
   ],
 })
 export class FtcLayout {
-  @Input() leftSidenavMode: MatDrawerMode = "side";
-  @Input() rightSidenavMode: MatDrawerMode = "over";
+  private _leftSidenavMode: MatDrawerMode = "side";
+  private _rightSidenavMode: MatDrawerMode = "over";
+
+  private modeSubject = new Subject<{
+    mode: MatDrawerMode;
+    side: "left" | "right";
+  }>();
+
+  @Input()
+  get leftSidenavMode(): MatDrawerMode {
+    return this._leftSidenavMode;
+  }
+
+  set leftSidenavMode(value: MatDrawerMode) {
+    this._leftSidenavMode = value;
+    this.modeSubject.next({ mode: value, side: "left" });
+  }
+
+  @Input()
+  get rightSidenavMode(): MatDrawerMode {
+    return this._rightSidenavMode;
+  }
+
+  set rightSidenavMode(value: MatDrawerMode) {
+    this._rightSidenavMode = value;
+    this.modeSubject.next({ mode: value, side: "right" });
+  }
 
   @Input({ transform: numberAttribute }) leftSidenavMinWidthPx: number = 75;
   @Input({ transform: numberAttribute }) leftSidenavMaxWidthPx: number = 250;
 
   @Input({ transform: numberAttribute }) rightSidenavMinWidthPx: number = 75;
   @Input({ transform: numberAttribute }) rightSidenavMaxWidthPx: number = 250;
-
-  // @Input({ transform: booleanAttribute }) fullscreen: boolean = false;
 
   @ViewChild("leftSideNav") leftSidenav?: MatSidenav;
   @ViewChild("rightSideNav") rightSidenav?: MatSidenav;
@@ -91,9 +119,47 @@ export class FtcLayout {
   leftSidenavMinMaxWidth: MinMaxWidth = { minWidth: `0px`, maxWidth: `0px` };
   rightSidenavMinMaxWidth: MinMaxWidth = { minWidth: `0px`, maxWidth: `0px` };
 
-  constructor(private elementRef: ElementRef) {}
+  layoutChanges = this.breakpointObserver.observe([
+    "(orientation: portrait)",
+    "(orientation: landscape)",
+  ]);
+  private readonly destroyed = new Subject<void>();
+  breakPointModeMap = new Map<
+    string,
+    { left: MatDrawerMode; right: MatDrawerMode }
+  >([
+    [Breakpoints.XSmall, { left: "over", right: "over" }],
+    [Breakpoints.Small, { left: "side", right: "over" }],
+    [Breakpoints.Medium, { left: "side", right: "over" }],
+    [Breakpoints.Large, { left: "side", right: "over" }],
+    [Breakpoints.XLarge, { left: "side", right: "over" }],
+  ]);
+
+  constructor(private breakpointObserver: BreakpointObserver) {
+    this.modeSubject
+      .pipe(takeUntil(this.destroyed))
+      .subscribe(() => this.applyLayoutProperties());
+  }
 
   ngOnInit(): void {
+    this.breakpointObserver
+      .observe([...this.breakPointModeMap.keys()])
+      .pipe(takeUntil(this.destroyed))
+      .subscribe((result) => {
+        for (const query of Object.keys(result.breakpoints)) {
+          if (result.breakpoints[query]) {
+            let { left, right } = this.breakPointModeMap.get(query) ?? {
+              left: this.leftSidenavMode,
+              right: this.rightSidenavMode,
+            };
+            this.leftSidenavMode = left;
+            this.rightSidenavMode = right;
+          }
+        }
+      });
+  }
+
+  applyLayoutProperties() {
     this.leftSidenavMinWidthPx =
       this.leftSidenavMode === "side" ? this.leftSidenavMinWidthPx : 0;
     this.leftSidenavMinMaxWidth = {
@@ -121,21 +187,7 @@ export class FtcLayout {
 
     this.contentMarginLeft.set(this.leftAlwaysOpened());
     this.contentMarginRight.set(this.rightAlwaysOpened());
-    // this.resizeHeight();
   }
-
-  // @HostListener("window:resize", ["$event"])
-  // onResize(event: Event): void {
-  //   this.resizeHeight();
-  // }
-
-  // resizeHeight(): void {
-  //   const layoutParentElement = this.elementRef.nativeElement
-  //     .parentElement as HTMLElement;
-  //   if (layoutParentElement) {
-  //     layoutParentElement.style.maxHeight = `${window.innerHeight}px`;
-  //   }
-  // }
 
   toggleLeftSidenav() {
     if (this.leftAlwaysOpened()) {
@@ -167,5 +219,9 @@ export class FtcLayout {
     document.fullscreenElement
       ? document.exitFullscreen()
       : document.documentElement.requestFullscreen();
+  }
+  ngOnDestroy() {
+    this.destroyed.next();
+    this.destroyed.complete();
   }
 }
