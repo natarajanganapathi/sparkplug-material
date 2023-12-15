@@ -1,30 +1,47 @@
 import { Input, ElementRef, Directive } from "@angular/core";
-import { BreakpointObserver, BreakpointState } from "@angular/cdk/layout";
+import { BreakpointObserver } from "@angular/cdk/layout";
 import { takeUntil } from "rxjs/operators";
 
 import { DirectiveBase } from "@freshthought/cdk/platform";
 
-type Breakpoint = keyof BreakpointState;
+import {
+  FtcBreakpointSizeMap,
+  FtcScreenSize,
+} from "../common/breakpoint-size-map";
 
 @Directive({
   selector: "[ftcHide]",
   standalone: true,
 })
 export class FtcHide extends DirectiveBase {
-  @Input("hide") hideOnBreakpoints: Breakpoint[] = [];
+  @Input() ftcHide: FtcScreenSize | FtcScreenSize[] = [];
+  _display: string = "block";
+  _style: any;
   constructor(
     private elementRef: ElementRef,
     private breakpointObserver: BreakpointObserver
   ) {
     super();
+    this._style = this.elementRef.nativeElement.style;
+    this._display = this._style.display;
   }
   ngOnInit(): void {
     this.breakpointObserver
-      .observe(this.hideOnBreakpoints)
+      .observe([...FtcBreakpointSizeMap.keys()])
       .pipe(takeUntil(this.destroy$))
-      .subscribe((state) => {
-        if (state.matches) {
-          this.elementRef.nativeElement.style.display = "none";
+      .subscribe((result) => {
+        for (const query of Object.keys(result.breakpoints)) {
+          if (result.breakpoints[query]) {
+            let size = FtcBreakpointSizeMap.get(query);
+            this._style.display =
+              size && this.ftcHide.includes(size) ? "none" : this._display;
+            // if (size && this.ftcHide.includes(size)) {
+            //   this._style.display = "none";
+            // } else {
+            //   this._style.display = this._display;
+            // }
+            return;
+          }
         }
       });
   }

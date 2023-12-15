@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { CdkDevice } from './device';
+import { FtcDevice } from './device';
 
 describe('Device', () => {
-  let service: CdkDevice;
+  let service: FtcDevice;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(CdkDevice);
+    service = TestBed.inject(FtcDevice);
   });
 
   it('should be created', () => {

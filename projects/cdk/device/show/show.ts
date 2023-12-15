@@ -1,30 +1,47 @@
 import { Input, ElementRef, Directive } from "@angular/core";
-import { BreakpointObserver, BreakpointState } from "@angular/cdk/layout";
+import { BreakpointObserver } from "@angular/cdk/layout";
 import { takeUntil } from "rxjs/operators";
 
 import { DirectiveBase } from "@freshthought/cdk/platform";
 
-type Breakpoint = keyof BreakpointState;
+import {
+  FtcBreakpointSizeMap,
+  FtcScreenSize,
+} from "../common/breakpoint-size-map";
 
 @Directive({
   selector: "[ftcShow]",
   standalone: true,
 })
 export class FtcShow extends DirectiveBase {
-  @Input("show") showOnBreakpoints: Breakpoint[] = [];
+  @Input() ftcShow: FtcScreenSize | FtcScreenSize[] = [];
+  _display: string = "";
+  _style: any;
   constructor(
     private elementRef: ElementRef,
     private breakpointObserver: BreakpointObserver
   ) {
     super();
+    this._style = this.elementRef.nativeElement.style;
+    this._display = this._style.display;
   }
   ngOnInit(): void {
     this.breakpointObserver
-      .observe(this.showOnBreakpoints)
+      .observe([...FtcBreakpointSizeMap.keys()])
       .pipe(takeUntil(this.destroy$))
-      .subscribe((state) => {
-        if (!state.matches) {
-          this.elementRef.nativeElement.style.display = "none";
+      .subscribe((result) => {
+        for (const query of Object.keys(result.breakpoints)) {
+          if (result.breakpoints[query]) {
+            let size = FtcBreakpointSizeMap.get(query);
+            this._style.display =
+              size && this.ftcShow.includes(size) ? this._display : "none";
+            // if (size && this.ftcShow.includes(size)) {
+            //   this._style.display = this._display;
+            // } else {
+            //   this._style.display = "none";
+            // }
+            return;
+          }
         }
       });
   }

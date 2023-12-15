@@ -1,10 +1,12 @@
 import { Component } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { RouterOutlet } from "@angular/router";
-import { FtcLayout } from "@freshthought/material/layout";
 import { MatButtonModule } from "@angular/material/button";
 import { MatIconModule } from "@angular/material/icon";
 import { MatToolbarModule } from "@angular/material/toolbar";
+
+import { FtcLayout } from "@freshthought/material/layout";
+import { FtcHide, FtcShow } from "@freshthought/cdk/device";
 
 import { SidemenuComponent } from "./common/sidemenu.component";
 import { LayoutDocComponent } from "./pages/layout-doc/layout-doc.component";
@@ -16,14 +18,15 @@ import { LayoutDocComponent } from "./pages/layout-doc/layout-doc.component";
     CommonModule,
     RouterOutlet,
     MatIconModule,
-    FtcLayout,
     MatButtonModule,
     MatToolbarModule,
     SidemenuComponent,
-    LayoutDocComponent
+    FtcLayout,
+    FtcHide,
+    FtcShow,
+    LayoutDocComponent,
   ],
   templateUrl: "app.component.html",
   styleUrl: "app.component.scss",
 })
-export class AppComponent {
-}
+export class AppComponent {}

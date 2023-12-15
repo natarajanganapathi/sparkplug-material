@@ -1,23 +1,25 @@
 import { Injectable } from "@angular/core";
 import { BreakpointObserver } from "@angular/cdk/layout";
 
+
 @Injectable({
   providedIn: "root",
 })
-export class CdkDevice {
+export class FtcDevice {
   constructor(private breakpointObserver: BreakpointObserver) {}
 
-  isHandset(): boolean {
-    return this.breakpointObserver.isMatched("(max-width: 767px)");
+  get isHandset(): boolean {
+    return this.isMatched("(max-width: 767px)");
   }
 
-  isTablet(): boolean {
-    return this.breakpointObserver.isMatched(
-      "(min-width: 768px) and (max-width: 991px)"
-    );
+  get isTablet(): boolean {
+    return this.isMatched("(min-width: 768px) and (max-width: 991px)");
   }
 
-  isDesktop(): boolean {
-    return this.breakpointObserver.isMatched("(min-width: 992px)");
+  get isDesktop(): boolean {
+    return this.isMatched("(min-width: 992px)");
+  }
+  isMatched(query: string) {
+    return this.breakpointObserver.isMatched(query);
   }
 }
