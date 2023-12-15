@@ -152,7 +152,7 @@
       "projectType": "library",
       "root": "projects/cdk",
       "sourceRoot": "projects/cdk",
-      "prefix": "cdk",
+      "prefix": "ftc",
       "architect": {
         "build": {
           "builder": "@angular-devkit/build-angular:ng-packagr",

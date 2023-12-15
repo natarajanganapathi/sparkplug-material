@@ -12,10 +12,10 @@
       "esModuleInterop": true,
       "paths": {
         "@freshthought/material/*": [
-          "./projects/material/*"
+          "./dist/material/*"
         ],
         "@freshthought/cdk/*": [
-          "./projects/cdk/*"
+          "./dist/cdk/*"
         ]
       },
       "sourceMap": true,
