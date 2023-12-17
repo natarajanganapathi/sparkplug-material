@@ -21,6 +21,7 @@ jobs:
         node-version: ${{ matrix.node-version }}
         cache: 'npm'
     - run: npm ci || true
+    - run: npm run build cdk
     - run: npm run build material
     - run: npm run build
 
