@@ -33,13 +33,7 @@ export class FtcHide extends DirectiveBase {
         for (const query of Object.keys(result.breakpoints)) {
           if (result.breakpoints[query]) {
             let size = FtcBreakpointSizeMap.get(query);
-            this._style.display =
-              size && this.ftcHide.includes(size) ? "none" : this._display;
-            // if (size && this.ftcHide.includes(size)) {
-            //   this._style.display = "none";
-            // } else {
-            //   this._style.display = this._display;
-            // }
+            this._style.display = size && this.ftcHide.includes(size) ? "none" : this._display;
             return;
           }
         }

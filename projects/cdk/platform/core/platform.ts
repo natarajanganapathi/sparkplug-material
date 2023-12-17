@@ -1,8 +1,8 @@
-import { OnDestroy, Injectable } from "@angular/core";
+import { OnDestroy, Directive } from "@angular/core";
 import { Subject } from "rxjs";
 
-@Injectable()
-export class DirectiveBase implements OnDestroy {
+@Directive()
+export abstract class DirectiveBase implements OnDestroy {
   protected readonly destroy$ = new Subject<void>();
   ngOnDestroy(): void {
     this.destroy$.next();
@@ -10,8 +10,8 @@ export class DirectiveBase implements OnDestroy {
   }
 }
 
-@Injectable()
-export class ComponentBase implements OnDestroy {
+@Directive()
+export abstract class ComponentBase implements OnDestroy {
   protected readonly destroy$ = new Subject<void>();
   ngOnDestroy(): void {
     this.destroy$.next();

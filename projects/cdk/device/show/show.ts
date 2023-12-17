@@ -35,11 +35,6 @@ export class FtcShow extends DirectiveBase {
             let size = FtcBreakpointSizeMap.get(query);
             this._style.display =
               size && this.ftcShow.includes(size) ? this._display : "none";
-            // if (size && this.ftcShow.includes(size)) {
-            //   this._style.display = this._display;
-            // } else {
-            //   this._style.display = "none";
-            // }
             return;
           }
         }
