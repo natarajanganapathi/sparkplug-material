@@ -36,7 +36,7 @@ import { ComponentBase } from "@freshthought/cdk/platform";
 export type FtcDrawerMode = MatDrawerMode;
 declare type MinMaxWidth = { minWidth: number; maxWidth: number };
 declare type FtcSidenavConfig = { mode: FtcDrawerMode } & MinMaxWidth;
-declare type FtcLayoutConfig = {
+export declare type FtcLayoutConfig = {
   left: FtcSidenavConfig;
   right: FtcSidenavConfig;
 };
@@ -51,8 +51,12 @@ export const FTC_LAYOUT_DEFAULT_OPTIONS = new InjectionToken<FtcLayoutOptions>(
   }
 );
 
-function sidenav(mode: FtcDrawerMode): FtcSidenavConfig {
-  return { mode, minWidth: 75, maxWidth: 250 };
+export function sidenav(
+  mode: FtcDrawerMode,
+  minWidth: number = 75,
+  maxWidth: number = 250
+): FtcSidenavConfig {
+  return { mode, minWidth, maxWidth };
 }
 
 export function FTC_LAYOUT_DEFAULT_OPTIONS_FACTORY(): FtcLayoutOptions {
@@ -153,7 +157,7 @@ export class FtcLayout extends ComponentBase implements OnInit {
       .pipe(takeUntil(this.destroyed$))
       .subscribe((result) => {
         for (const query of Object.keys(result.breakpoints)) {
-          if (this.layoutOptions.has(query)) {
+          if (result.breakpoints[query] && this.layoutOptions.has(query)) {
             const config = this.layoutOptions.get(query)!;
             this.applyLayoutProperties(config);
             break;

@@ -11,8 +11,8 @@
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true,
     "paths": {
-      "@freshthought/material/*": ["./projects/material/*"],
-      "@freshthought/cdk/*": ["./projects/cdk/*"]
+      "@freshthought/material/*": ["./dist/material/*"],
+      "@freshthought/cdk/*": ["./dist/cdk/*"]
     },
     "sourceMap": true,
     "declaration": false,
