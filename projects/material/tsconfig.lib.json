@@ -1,13 +1,16 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-      "outDir": "../../out-tsc/lib",
-      "declaration": true,
-      "declarationMap": true,
-      "inlineSources": true,
-      "types": []
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    "rootDir": "..",
+    "baseUrl": ".",
+    "paths": {
+      "@freshthought/material/*": ["./material/*"],
+      "@freshthought/cdk/*": ["./cdk/*"]
     },
-    "exclude": [
-      "**/*.spec.ts"
-    ]
-  }
+    "declaration": true,
+    "declarationMap": true,
+    "inlineSources": true,
+    "types": []
+  },
+  "exclude": ["**/*.spec.ts"]
+}
