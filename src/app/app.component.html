@@ -1,9 +1,4 @@
-<ftc-layout
-  #layout
-  leftSidenavMode="side"
-  leftSidenavMinWidthPx="75"
-  leftSidenavMaxWidthPx="250"
->
+<ftc-layout #layout>
   <mat-toolbar ftc-content-top>
     <button mat-icon-button (click)="layout.toggleLeftSidenav()">
       <mat-icon>menu</mat-icon>
@@ -15,7 +10,7 @@
     </button>
   </mat-toolbar>
   <ftc-sidemenu ftc-left-sidenav-top></ftc-sidemenu>
-  <mat-toolbar ftc-content-bottom>
+  <mat-toolbar ftc-content-bottom [ftcHide]="['xs', 'sm']">
     <span>Layout Component Content Bottom</span>
   </mat-toolbar>
 </ftc-layout>

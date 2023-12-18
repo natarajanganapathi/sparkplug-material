@@ -1,9 +1,10 @@
 import {
   Component,
-  Input,
-  numberAttribute,
   ViewChild,
   signal,
+  InjectionToken,
+  Optional,
+  Inject,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
@@ -28,9 +29,49 @@ import {
   BreakpointObserver,
   Breakpoints,
 } from "@angular/cdk/layout";
-import { Subject, takeUntil } from "rxjs";
+import { takeUntil } from "rxjs";
+import { ComponentBase } from "@freshthought/cdk/platform";
 
-declare type MinMaxWidth = { minWidth: string; maxWidth: string };
+export type FtcDrawerMode = MatDrawerMode;
+declare type MinMaxWidth = { minWidth: number; maxWidth: number };
+declare type FtcSidenavConfig = { mode: FtcDrawerMode } & MinMaxWidth;
+declare type FtcLayoutConfig = {
+  left: FtcSidenavConfig;
+  right: FtcSidenavConfig;
+};
+
+export interface FtcLayoutOptions extends Map<string, FtcLayoutConfig> {}
+
+export const FTC_LAYOUT_DEFAULT_OPTIONS = new InjectionToken<FtcLayoutOptions>(
+  "ftc-layout-default-options",
+  {
+    providedIn: "root",
+    factory: FTC_LAYOUT_DEFAULT_OPTIONS_FACTORY,
+  }
+);
+
+function sidenav(mode: FtcDrawerMode): FtcSidenavConfig {
+  return { mode, minWidth: 75, maxWidth: 250 };
+}
+
+export function FTC_LAYOUT_DEFAULT_OPTIONS_FACTORY(): FtcLayoutOptions {
+  return new Map<string, FtcLayoutConfig>([
+    [Breakpoints.XSmall, { left: sidenav("over"), right: sidenav("over") }],
+    [Breakpoints.Small, { left: sidenav("over"), right: sidenav("over") }],
+    [Breakpoints.Medium, { left: sidenav("side"), right: sidenav("over") }],
+    [Breakpoints.Large, { left: sidenav("side"), right: sidenav("over") }],
+    [Breakpoints.XLarge, { left: sidenav("side"), right: sidenav("over") }],
+  ]);
+}
+export function getSidenavConfig(
+  mode: FtcDrawerMode,
+  minWidth: number,
+  maxWidth: number
+): FtcSidenavConfig {
+  return { mode, minWidth, maxWidth };
+}
+
+const defaults = FTC_LAYOUT_DEFAULT_OPTIONS_FACTORY();
 
 @Component({
   selector: "ftc-layout",
@@ -50,62 +91,38 @@ declare type MinMaxWidth = { minWidth: string; maxWidth: string };
   standalone: true,
   animations: [
     trigger("contentMarginLeft", [
-      state("false", style({ marginLeft: "{{minWidth}}" }), {
-        params: { minWidth: "0px" },
+      state("false", style({ marginLeft: "{{minWidth}}px" }), {
+        params: { minWidth: 0 },
       }),
-      state("true", style({ marginLeft: "{{maxWidth}}" }), {
-        params: { maxWidth: "0px" },
+      state("true", style({ marginLeft: "{{maxWidth}}px" }), {
+        params: { maxWidth: 0 },
       }),
       transition("true <=> false", animate("0.3s ease-in-out")),
     ]),
     trigger("contentMarginRight", [
-      state("false", style({ marginRight: "{{minWidth}}" }), {
-        params: { minWidth: "0px" },
+      state("false", style({ marginRight: "{{minWidth}}px" }), {
+        params: { minWidth: 0 },
       }),
-      state("true", style({ marginRight: "{{maxWidth}}" }), {
-        params: { maxWidth: "0px" },
+      state("true", style({ marginRight: "{{maxWidth}}px" }), {
+        params: { maxWidth: 0 },
       }),
       transition("true <=> false", animate("0.3s ease-in-out")),
     ]),
   ],
 })
-export class FtcLayout {
-  private _leftSidenavMode: MatDrawerMode = "side";
-  private _rightSidenavMode: MatDrawerMode = "over";
-
-  private modeSubject = new Subject<{
-    mode: MatDrawerMode;
-    side: "left" | "right";
-  }>();
-
-  @Input()
-  get leftSidenavMode(): MatDrawerMode {
-    return this._leftSidenavMode;
-  }
-
-  set leftSidenavMode(value: MatDrawerMode) {
-    this._leftSidenavMode = value;
-    this.modeSubject.next({ mode: value, side: "left" });
-  }
-
-  @Input()
-  get rightSidenavMode(): MatDrawerMode {
-    return this._rightSidenavMode;
-  }
-
-  set rightSidenavMode(value: MatDrawerMode) {
-    this._rightSidenavMode = value;
-    this.modeSubject.next({ mode: value, side: "right" });
-  }
-
-  @Input({ transform: numberAttribute }) leftSidenavMinWidthPx: number = 75;
-  @Input({ transform: numberAttribute }) leftSidenavMaxWidthPx: number = 250;
-
-  @Input({ transform: numberAttribute }) rightSidenavMinWidthPx: number = 75;
-  @Input({ transform: numberAttribute }) rightSidenavMaxWidthPx: number = 250;
-
+export class FtcLayout extends ComponentBase {
   @ViewChild("leftSideNav") leftSidenav?: MatSidenav;
   @ViewChild("rightSideNav") rightSidenav?: MatSidenav;
+
+  layoutConfig = signal(this.layoutOptions.get(Breakpoints.Large)!);
+
+  get leftSidenavMode(): FtcDrawerMode {
+    return this.layoutConfig().left.mode;
+  }
+
+  get rightSidenavMode(): FtcDrawerMode {
+    return this.layoutConfig().right.mode;
+  }
 
   leftAlwaysOpened = signal(false);
   rightAlwaysOpened = signal(false);
@@ -116,90 +133,32 @@ export class FtcLayout {
   contentMarginLeft = signal(true);
   contentMarginRight = signal(true);
 
-  leftSidenavMinMaxWidth: MinMaxWidth = { minWidth: `0px`, maxWidth: `0px` };
-  rightSidenavMinMaxWidth: MinMaxWidth = { minWidth: `0px`, maxWidth: `0px` };
+  leftSidenavMinMaxWidth: MinMaxWidth = { minWidth: 0, maxWidth: 0 };
+  rightSidenavMinMaxWidth: MinMaxWidth = { minWidth: 0, maxWidth: 0 };
 
-  layoutChanges = this.breakpointObserver.observe([
-    "(orientation: portrait)",
-    "(orientation: landscape)",
-  ]);
-  private readonly destroyed = new Subject<void>();
-  breakPointModeMap = new Map<
-    string,
-    { left: MatDrawerMode; right: MatDrawerMode }
-  >([
-    [Breakpoints.XSmall, { left: "over", right: "over" }],
-    [Breakpoints.Small, { left: "side", right: "over" }],
-    [Breakpoints.Medium, { left: "side", right: "over" }],
-    [Breakpoints.Large, { left: "side", right: "over" }],
-    [Breakpoints.XLarge, { left: "side", right: "over" }],
-  ]);
-
-  constructor(private breakpointObserver: BreakpointObserver) {
-    this.modeSubject
-      .pipe(takeUntil(this.destroyed))
-      .subscribe(() => this.applyLayoutProperties());
+  constructor(
+    private breakpointObserver: BreakpointObserver,
+    @Optional()
+    @Inject(FTC_LAYOUT_DEFAULT_OPTIONS)
+    private layoutOptions: FtcLayoutOptions
+  ) {
+    super();
+    layoutOptions = layoutOptions || defaults;
   }
 
   ngOnInit(): void {
     this.breakpointObserver
-      .observe([...this.breakPointModeMap.keys()])
-      .pipe(takeUntil(this.destroyed))
+      .observe([...this.layoutOptions.keys()])
+      .pipe(takeUntil(this.destroyed$))
       .subscribe((result) => {
         for (const query of Object.keys(result.breakpoints)) {
-          if (result.breakpoints[query]) {
-            let { left, right } = this.breakPointModeMap.get(query) ?? {
-              left: this.leftSidenavMode,
-              right: this.rightSidenavMode,
-            };
-            this.leftSidenavMode = left;
-            this.rightSidenavMode = right;
+          if (result.breakpoints[query] && this.layoutOptions.has(query)) {
+            let config = this.layoutOptions.get(query)!;
+            this.applyLayoutProperties(config);
+            break;
           }
         }
       });
-  }
-
-  applyLayoutProperties() {
-    this.leftSidenavMinWidthPx =
-      this.leftSidenavMode === "side" ? this.leftSidenavMinWidthPx : 0;
-    this.leftSidenavMinMaxWidth = {
-      minWidth: `${this.leftSidenavMinWidthPx}px`,
-      maxWidth: `${this.leftSidenavMaxWidthPx}px`,
-    };
-
-    this.rightSidenavMinWidthPx =
-      this.rightSidenavMode === "side" ? this.rightSidenavMinWidthPx : 0;
-    this.rightSidenavMinMaxWidth = {
-      minWidth: `${this.rightSidenavMinWidthPx}px`,
-      maxWidth: `${this.rightSidenavMaxWidthPx}px`,
-    };
-
-    this.leftAlwaysOpened.set(
-      this.leftSidenavMode === "side" && this.leftSidenavMinWidthPx > 0
-    );
-
-    this.rightAlwaysOpened.set(
-      this.rightSidenavMode === "side" && this.rightSidenavMinWidthPx > 0
-    );
-
-    this.leftSidenavWidth.set(this.leftSidenavMaxWidthPx);
-    this.rightSidenavWidth.set(this.rightSidenavMaxWidthPx);
-
-    this.contentMarginLeft.set(this.leftAlwaysOpened());
-    this.contentMarginRight.set(this.rightAlwaysOpened());
-  }
-
-  toggleLeftSidenav() {
-    if (this.leftAlwaysOpened()) {
-      this.contentMarginLeft.update((value) => !value);
-      this.leftSidenavWidth.set(
-        this.contentMarginLeft()
-          ? this.leftSidenavMaxWidthPx
-          : this.leftSidenavMinWidthPx
-      );
-    } else {
-      this.leftSidenav?.toggle();
-    }
   }
 
   toggleRightSidenav() {
@@ -207,21 +166,53 @@ export class FtcLayout {
       this.contentMarginRight.update((value) => !value);
       this.rightSidenavWidth.set(
         this.contentMarginRight()
-          ? this.rightSidenavMaxWidthPx
-          : this.rightSidenavMinWidthPx
+          ? this.rightSidenavMinMaxWidth.maxWidth
+          : this.rightSidenavMinMaxWidth.minWidth
       );
     } else {
       this.rightSidenav?.toggle();
     }
   }
 
+  toggleLeftSidenav() {
+    if (this.leftAlwaysOpened()) {
+      this.contentMarginLeft.update((value) => !value);
+      this.leftSidenavWidth.set(
+        this.contentMarginLeft()
+          ? this.leftSidenavMinMaxWidth.maxWidth
+          : this.leftSidenavMinMaxWidth.minWidth
+      );
+    } else {
+      this.leftSidenav?.toggle();
+    }
+  }
+
+  applyLayoutProperties(config: FtcLayoutConfig) {
+    this.layoutConfig.set(config);
+
+    this.leftSidenavMinMaxWidth = this.sidenavWidht(config.left);
+    this.rightSidenavMinMaxWidth = this.sidenavWidht(config.right);
+
+    this.leftAlwaysOpened.set(this.isOpen(config.left));
+    this.rightAlwaysOpened.set(this.isOpen(config.right));
+
+    this.contentMarginLeft.set(this.leftAlwaysOpened());
+    this.contentMarginRight.set(this.rightAlwaysOpened());
+
+    this.leftSidenavWidth.set(config.left.maxWidth);
+    this.rightSidenavWidth.set(config.right.maxWidth);
+  }
+  sidenavWidht(config: FtcSidenavConfig): MinMaxWidth {
+    let minWidth = config.mode === "side" ? config.minWidth : 0;
+    return { minWidth, maxWidth: config.maxWidth };
+  }
+  isOpen(config: FtcSidenavConfig) {
+    return config.mode === "side" && config.minWidth > 0;
+  }
+
   toggleFullScreen() {
     document.fullscreenElement
       ? document.exitFullscreen()
       : document.documentElement.requestFullscreen();
-  }
-  ngOnDestroy() {
-    this.destroyed.next();
-    this.destroyed.complete();
   }
 }

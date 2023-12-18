@@ -28,7 +28,7 @@ export class FtcShow extends DirectiveBase {
   ngOnInit(): void {
     this.breakpointObserver
       .observe([...FtcBreakpointSizeMap.keys()])
-      .pipe(takeUntil(this.destroy$))
+      .pipe(takeUntil(this.destroyed$))
       .subscribe((result) => {
         for (const query of Object.keys(result.breakpoints)) {
           if (result.breakpoints[query]) {
