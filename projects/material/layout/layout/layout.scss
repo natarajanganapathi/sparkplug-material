@@ -1,0 +1,38 @@
+@mixin flex-column-fill {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    overflow: hidden;
+}
+
+:host {
+    @include flex-column-fill;
+    mat-sidenav-container {
+        flex: 1;
+        .mat-drawer-side {
+            border-right: none;
+        }
+        mat-sidenav {
+            transition: width 0.3s ease-in-out;
+            @include flex-column-fill;
+            .sidenav {
+                @include flex-column-fill;
+            }
+        }
+        mat-sidenav-content {
+            @include flex-column-fill;
+            .content {
+                @include flex-column-fill;
+                .outlet {
+                    flex: 1;
+                    overflow-y: auto;
+                }
+            }
+        }
+    }
+
+    .x-spacer,
+    .y-spacer {
+        flex: 1 1 auto;
+    }
+}

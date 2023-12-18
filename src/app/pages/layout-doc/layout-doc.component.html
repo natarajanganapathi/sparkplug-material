@@ -1,0 +1,104 @@
+<h3>Layout Component Documents</h3>
+
+<h4>Properties</h4>
+
+<pre>
+    leftSidenavMode="side"          -> 
+    leftSidenavMinWidthPx="75"      -> 
+    leftSidenavMaxWidthPx="250"     -> 
+    rightSidenavMode="over"         ->
+    rightSidenavMinWidthPx="75"     ->
+    rightSidenavMaxWidthPx="250"    ->
+</pre>
+
+<h4>Layout with All the components Demo</h4>
+
+<div class="demo">
+  <ftc-layout
+    #layout
+    fullscreen="true"
+    [style.width.px]="1000"
+    [style.height.px]="600"
+    leftSidenavMode="side"
+    leftSidenavMinWidthPx="75"
+    leftSidenavMaxWidthPx="250"
+    rightSidenavMode="over"
+    rightSidenavMaxWidthPx="250"
+  >
+    <mat-toolbar color="primary" ftc-toolbar ftc-responsive="xs">
+      <span>Layout Component Documet</span>
+      <span class="x-spacer"></span>
+      <button mat-icon-button (click)="layout.toggleFullScreen()">
+        <mat-icon>fullscreen</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <mat-toolbar color="primary" ftc-content-top>
+      <button mat-icon-button (click)="layout.toggleLeftSidenav()">
+        <mat-icon>menu</mat-icon>
+      </button>
+      <span>Layout Component</span>
+      <span class="x-spacer"></span>
+      <button mat-icon-button (click)="layout.toggleRightSidenav()">
+        <mat-icon>menu</mat-icon>
+      </button>
+    </mat-toolbar>
+
+    <button ftc-left-sidenav-top mat-button type="button">Menu 1</button>
+    <button ftc-left-sidenav-top mat-button type="button">Menu 2</button>
+
+    <button ftc-left-sidenav-bottom mat-button type="button">Profile</button>
+
+    <button ftc-content-top mat-button type="button">Top Content 1</button>
+    <button ftc-content-top mat-button type="button">Top Content 2</button>
+
+    <button ftc-content-bottom mat-button type="button">Bottom Content</button>
+
+    <button ftc-right-sidenav-top mat-button type="button">Option 1</button>
+    <button ftc-right-sidenav-top mat-button type="button">Option 2</button>
+    <button ftc-right-sidenav-bottom mat-button type="button">Notifications</button>
+
+    <mat-toolbar color="primary" ftc-statusbar>
+      <span>Statusbar</span>
+    </mat-toolbar>
+  </ftc-layout>
+</div>
+
+<h4>Layout Demo 2</h4>
+
+<ftc-layout [style.width.px]="1000" [style.height.px]="600" #layout2>
+  <mat-toolbar color="primary" ftc-content-top>
+    <button mat-icon-button (click)="layout2.toggleLeftSidenav()">
+      <mat-icon>menu</mat-icon>
+    </button>
+    <span>Layout Component Content Top</span>
+    <span class="x-spacer"></span>
+    <button mat-icon-button (click)="layout2.toggleFullScreen()">
+      <mat-icon>fullscreen</mat-icon>
+    </button>
+  </mat-toolbar>
+
+  <mat-toolbar color="primary" ftc-left-sidenav-top>
+    <span>Layout Sidenav Top</span>
+  </mat-toolbar>
+
+  <button ftc-left-sidenav-top mat-button type="button">Menu 1</button>
+  <button ftc-left-sidenav-top mat-button type="button">Menu 2</button>
+
+  <button ftc-left-sidenav-bottom mat-button type="button">Profile</button>
+
+  <button ftc-content-top mat-button type="button">Top Content 1</button>
+  <button ftc-content-bottom mat-button type="button">Bottom Content</button>
+
+  <button ftc-right-sidenav-top mat-button type="button">Option 1</button>
+  <button ftc-right-sidenav-top mat-button type="button">Option 2</button>
+  <button ftc-right-sidenav-bottom mat-button type="button">Notifications</button>
+
+  <mat-toolbar color="primary" ftc-content-bottom>
+    <span>Layout Component Content Bottom</span>
+  </mat-toolbar>
+</ftc-layout>
+
+<h4>Layout Demo </h4>
+
+<h5>Todo</h5>

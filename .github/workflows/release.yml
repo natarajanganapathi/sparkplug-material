@@ -1,8 +1,9 @@
 name: Release
 
 on:
-  push:
-    branches: [ "main" ]
+  release:
+    types:
+      - published
 
 jobs:
   build:
@@ -20,6 +21,7 @@ jobs:
         cache: 'npm'
     - run: npm ci || true
     - run: npm run build cdk
+    - run: npm link ./projects/cdk
     - run: npm run build material
     - run: npm run build
     - name: Replace <TOKEN> with NPM_TOKEN in .npmrc

@@ -1,1 +1,43 @@
-<h1>Layout Component success!!!</h1>
+<ng-content select="[ftc-toolbar]"></ng-content>
+<mat-sidenav-container>
+  <mat-sidenav
+    #leftSideNav
+    [mode]="leftSidenavMode"
+    [opened]="leftAlwaysOpened()"
+    [style.width.px]="leftSidenavWidth()"
+  >
+    <div class="sidenav">
+      <ng-content select="[ftc-left-sidenav-top]"></ng-content>
+      <span class="y-spacer"></span>
+      <ng-content select="[ftc-left-sidenav-bottom]"></ng-content>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav
+    #rightSideNav
+    [mode]="rightSidenavMode"
+    [opened]="rightAlwaysOpened()"
+    position="end"
+    [style.width.px]="rightSidenavWidth()"
+  >
+    <div class="sidenav">
+      <ng-content select="[ftc-right-sidenav-top]"></ng-content>
+      <span class="y-spacer"></span>
+      <ng-content select="[ftc-right-sidenav-bottom]"></ng-content>
+    </div>
+  </mat-sidenav>
+
+  <mat-sidenav-content
+    [@contentMarginLeft]="{value: contentMarginLeft(), params: leftSidenavMinMaxWidth}"
+    [@contentMarginRight]="{value: contentMarginRight(), params: rightSidenavMinMaxWidth}"
+  >
+    <div class="content">
+      <ng-content select="[ftc-content-top]"></ng-content>
+      <div class="outlet">
+        <router-outlet></router-outlet>
+      </div>
+      <ng-content select="[ftc-content-bottom]"></ng-content>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+<ng-content select="[ftc-statusbar]"></ng-content>

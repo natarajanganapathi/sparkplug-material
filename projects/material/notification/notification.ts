@@ -6,25 +6,25 @@ import {
   Optional,
 } from "@angular/core";
 
-export interface SpcNotificationConfig {
+export interface FtcNotificationConfig {
   showProfile?: boolean;
 }
 
-export const SPC_LAYOUT_CONFIG = new InjectionToken<SpcNotificationConfig>(
-  "SPC_NOTIFICATION_CONFIG"
+export const FTC_LAYOUT_CONFIG = new InjectionToken<FtcNotificationConfig>(
+  "FTC_NOTIFICATION_CONFIG"
 );
 
 @Component({
-  selector: "spc-notification",
+  selector: "ftc-notification",
   template: "<div>Notification</div>",
   styleUrls: [],
-  exportAs: "spcNotification",
+  exportAs: "ftcNotification",
   standalone: true,
 })
-export class SpcNotification {
+export class FtcNotification {
   @Input() showProfile: boolean;
 
-  constructor(@Inject(SPC_LAYOUT_CONFIG) @Optional() config?: SpcNotificationConfig) {
+  constructor(@Inject(FTC_LAYOUT_CONFIG) @Optional() config?: FtcNotificationConfig) {
     this.showProfile = config?.showProfile ?? false;
   }
 }

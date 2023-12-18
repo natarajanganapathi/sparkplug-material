@@ -1,0 +1,7 @@
+#!/bin/sh
+. "$(dirname "$0")/_/husky.sh"
+
+npm run build:cdk
+npm link ./projects/cdk
+npm run build:material
+npm run build
