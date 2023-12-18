@@ -111,7 +111,7 @@ const defaults = FTC_LAYOUT_DEFAULT_OPTIONS_FACTORY();
     ]),
   ],
 })
-export class FtcLayout extends ComponentBase implements OnInit{
+export class FtcLayout extends ComponentBase implements OnInit {
   @ViewChild("leftSideNav") leftSidenav?: MatSidenav;
   @ViewChild("rightSideNav") rightSidenav?: MatSidenav;
 

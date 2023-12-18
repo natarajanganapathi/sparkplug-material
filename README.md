@@ -42,3 +42,10 @@ ng generate service  --path projects/cdk/device
 2. run `husky install` command
 3. add pre-commit commands.
     ex. `husky add pre-commit -c "npm run doctor"`
+
+
+## VSCode Plugins
+1. Angular Language Service >= v17.0.3
+2. ESLint >= v2.4.2
+3. JavaScript and TypeScript Nightly >= v5.4.20231217
+4. 
