@@ -4,9 +4,8 @@
     "rootDir": "..",
     "baseUrl": ".",
     "paths": {
-      "@freshthought/material/*": ["./material/*"],
-      "@freshthought/cdk": ["./cdk"],
-      "@freshthought/cdk/*": ["./cdk/*"]
+      "@freshthought/cdk/*": ["./cdk/*"],
+      "@freshthought/material/*": ["./*"]
     },
     "declaration": true,
     "declarationMap": true,
