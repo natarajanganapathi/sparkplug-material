@@ -10,7 +10,7 @@ ng generate library cdk
 Generate new componant
 
 ```ts
-ng generate component dropdown --standalone --flat --path src/material/dropdown
+ng generate component ActionMenu --standalone --flat --path projects/material/action-menu
 ng generate service  --path projects/cdk/device
 ```
 

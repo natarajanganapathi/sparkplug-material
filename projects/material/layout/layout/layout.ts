@@ -152,7 +152,7 @@ export class FtcLayout extends ComponentBase {
       .pipe(takeUntil(this.destroyed$))
       .subscribe((result) => {
         for (const query of Object.keys(result.breakpoints)) {
-          if (result.breakpoints[query] && this.layoutOptions.has(query)) {
+          if (this.layoutOptions.has(query)) {
             let config = this.layoutOptions.get(query)!;
             this.applyLayoutProperties(config);
             break;
