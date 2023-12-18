@@ -1,4 +1,4 @@
-import { Input, ElementRef, Directive } from "@angular/core";
+import { Input, OnInit, ElementRef, Directive } from "@angular/core";
 import { BreakpointObserver } from "@angular/cdk/layout";
 import { takeUntil } from "rxjs/operators";
 
@@ -13,10 +13,10 @@ import {
   selector: "[ftcHide]",
   standalone: true,
 })
-export class FtcHide extends DirectiveBase {
+export class FtcHide extends DirectiveBase implements OnInit {
   @Input() ftcHide: FtcScreenSize | FtcScreenSize[] = [];
   _display: string = "block";
-  _style: any;
+  _style: { display: string };
   constructor(
     private elementRef: ElementRef,
     private breakpointObserver: BreakpointObserver
@@ -32,8 +32,9 @@ export class FtcHide extends DirectiveBase {
       .subscribe((result) => {
         for (const query of Object.keys(result.breakpoints)) {
           if (result.breakpoints[query]) {
-            let size = FtcBreakpointSizeMap.get(query);
-            this._style.display = size && this.ftcHide.includes(size) ? "none" : this._display;
+            const size = FtcBreakpointSizeMap.get(query);
+            this._style.display =
+              size && this.ftcHide.includes(size) ? "none" : this._display;
             return;
           }
         }

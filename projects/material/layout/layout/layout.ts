@@ -5,6 +5,7 @@ import {
   InjectionToken,
   Optional,
   Inject,
+  OnInit,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import {
@@ -110,7 +111,7 @@ const defaults = FTC_LAYOUT_DEFAULT_OPTIONS_FACTORY();
     ]),
   ],
 })
-export class FtcLayout extends ComponentBase {
+export class FtcLayout extends ComponentBase implements OnInit{
   @ViewChild("leftSideNav") leftSidenav?: MatSidenav;
   @ViewChild("rightSideNav") rightSidenav?: MatSidenav;
 
@@ -153,7 +154,7 @@ export class FtcLayout extends ComponentBase {
       .subscribe((result) => {
         for (const query of Object.keys(result.breakpoints)) {
           if (this.layoutOptions.has(query)) {
-            let config = this.layoutOptions.get(query)!;
+            const config = this.layoutOptions.get(query)!;
             this.applyLayoutProperties(config);
             break;
           }
@@ -203,7 +204,7 @@ export class FtcLayout extends ComponentBase {
     this.rightSidenavWidth.set(config.right.maxWidth);
   }
   sidenavWidht(config: FtcSidenavConfig): MinMaxWidth {
-    let minWidth = config.mode === "side" ? config.minWidth : 0;
+    const minWidth = config.mode === "side" ? config.minWidth : 0;
     return { minWidth, maxWidth: config.maxWidth };
   }
   isOpen(config: FtcSidenavConfig) {

@@ -12,7 +12,7 @@ import { SidemenuComponent } from "./common/sidemenu.component";
 import { LayoutDocComponent } from "./pages/layout-doc/layout-doc.component";
 
 @Component({
-  selector: "app-root",
+  selector: "ftc-root",
   standalone: true,
   imports: [
     CommonModule,

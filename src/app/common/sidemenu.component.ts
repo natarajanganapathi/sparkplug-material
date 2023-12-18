@@ -1,4 +1,4 @@
-import { Component, Input, ElementRef } from "@angular/core";
+import { Component, OnInit, Input, ElementRef } from "@angular/core";
 
 import { MatButtonModule } from "@angular/material/button";
 import { MatToolbarModule } from "@angular/material/toolbar";
@@ -38,7 +38,7 @@ export interface FtcLayoutMenu {
   templateUrl: "./sidemenu.component.html",
   styleUrl: "./sidemenu.component.scss",
 })
-export class SidemenuComponent {
+export class SidemenuComponent implements OnInit {
   dataSource = new MatTreeNestedDataSource<FtcLayoutMenu>();
   treeControl = new NestedTreeControl<FtcLayoutMenu>((node) => node.children);
 
@@ -73,7 +73,9 @@ export class SidemenuComponent {
   ];
 
   constructor(private elementRef: ElementRef) {
-    this.treeControl.expansionModel.changed.subscribe((event: any) => {});
+    this.treeControl.expansionModel.changed.subscribe((event) => {
+      console.log(event);
+    });
   }
 
   ngOnInit(): void {
