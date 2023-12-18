@@ -24,4 +24,3 @@ jobs:
     - run: npm run build cdk    
     - run: npm run build material
     - run: npm run build
-
