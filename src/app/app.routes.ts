@@ -2,7 +2,7 @@ import { Routes } from "@angular/router";
 import { LayoutDocComponent } from "./pages/material/layout-doc/layout-doc.component";
 import { GetStartedComponent } from "./pages/get-started/get-started.component";
 import { GridDocComponent } from "./pages/material/grid-doc/grid-doc.component";
-import { PopupDocComponent } from "./pages/material/popup-doc/popup-doc.component";
+import { DialogDocComponent } from "./pages/material/dialog-doc/dialog-doc.component";
 import { NotificationDocComponent } from "./pages/material/notification-doc/notification-doc.component";
 import { JsonFormDocComponent } from "./pages/material/json-form-doc/json-form-doc.component";
 import { ActionMenuComponent } from "@freshthought/material/action-menu";
@@ -33,7 +33,7 @@ export const routes: Routes = [
           { path: "grid-doc", component: GridDocComponent },
           { path: "json-form-doc", component: JsonFormDocComponent },
           { path: "notification-doc", component: NotificationDocComponent },
-          { path: "popup-doc", component: PopupDocComponent },
+          { path: "dialog-doc", component: DialogDocComponent },
         ],
       },
       {

@@ -1,1 +1,1 @@
-export * from './core/platform';
+export * from './src/platform';

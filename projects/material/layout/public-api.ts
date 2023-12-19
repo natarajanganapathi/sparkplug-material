@@ -1,1 +1,1 @@
-export * from './layout/layout';
+export * from './src/layout';

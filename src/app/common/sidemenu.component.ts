@@ -60,7 +60,7 @@ export class SidemenuComponent implements OnInit {
         },
         { label: "Grid", route: "/pages/material/grid-doc", icon: "apps" },
         { label: "Action Menu", route: "/pages/material/action-menu-doc", icon: "apps" },
-        { label: "Popup", route: "/pages/material/popup-doc", icon: "apps" },
+        { label: "Dialog", route: "/pages/material/dialog-doc", icon: "apps" },
         { label: "JsonForm", route: "/pages/material/json-form-doc", icon: "apps" },
       ],
     },
