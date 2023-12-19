@@ -50,24 +50,25 @@ export class SidemenuComponent implements OnInit {
       icon: "apps",
     },
     {
-      label: "Components",
+      label: "Material",
       children: [
-        { label: "Layout", route: "/pages/layout-doc", icon: "apps" },
+        { label: "Layout", route: "/pages/material/layout-doc", icon: "apps" },
         {
           label: "Notification",
-          route: "/pages/notification",
+          route: "/pages/material/notification-doc",
           icon: "notifications",
         },
-        // {
-        //   label: "Sub Menu 3",
-        //   route: "/qa3-deployment",
-        //   icon: "",
-        //   children: [
-        //     { label: "Sub Menu 1", route: "/qa1-deployment", icon: "" },
-        //     { label: "Sub Menu 2", route: "/qa2-deployment", icon: "" },
-        //     { label: "Sub Menu 3", route: "/qa3-deployment", icon: "" },
-        //   ],
-        // },
+        { label: "Grid", route: "/pages/material/grid-doc", icon: "apps" },
+        { label: "Action Menu", route: "/pages/material/action-menu-doc", icon: "apps" },
+        { label: "Popup", route: "/pages/material/popup-doc", icon: "apps" },
+        { label: "JsonForm", route: "/pages/material/json-form-doc", icon: "apps" },
+      ],
+    },
+    {
+      label: "Cdk",
+      children: [
+        { label: "Show", route: "/pages/cdk/show-doc", icon: "apps" },
+        { label: "Hide", route: "/pages/cdk/hide-doc", icon: "apps" },
       ],
     },
   ];

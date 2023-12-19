@@ -14,17 +14,7 @@
 <h4>Layout with All the components Demo</h4>
 
 <div class="demo">
-  <ftc-layout
-    #layout
-    fullscreen="true"
-    [style.width.px]="1000"
-    [style.height.px]="600"
-    leftSidenavMode="side"
-    leftSidenavMinWidthPx="75"
-    leftSidenavMaxWidthPx="250"
-    rightSidenavMode="over"
-    rightSidenavMaxWidthPx="250"
-  >
+  <ftc-layout #layout [style.height.px]="600">
     <mat-toolbar color="primary" ftc-toolbar ftc-responsive="xs">
       <span>Layout Component Documet</span>
       <span class="x-spacer"></span>
@@ -56,7 +46,9 @@
 
     <button ftc-right-sidenav-top mat-button type="button">Option 1</button>
     <button ftc-right-sidenav-top mat-button type="button">Option 2</button>
-    <button ftc-right-sidenav-bottom mat-button type="button">Notifications</button>
+    <button ftc-right-sidenav-bottom mat-button type="button">
+      Notifications
+    </button>
 
     <mat-toolbar color="primary" ftc-statusbar>
       <span>Statusbar</span>
@@ -66,7 +58,7 @@
 
 <h4>Layout Demo 2</h4>
 
-<ftc-layout [style.width.px]="1000" [style.height.px]="600" #layout2>
+<ftc-layout [style.height.px]="600" #layout2>
   <mat-toolbar color="primary" ftc-content-top>
     <button mat-icon-button (click)="layout2.toggleLeftSidenav()">
       <mat-icon>menu</mat-icon>
@@ -92,13 +84,15 @@
 
   <button ftc-right-sidenav-top mat-button type="button">Option 1</button>
   <button ftc-right-sidenav-top mat-button type="button">Option 2</button>
-  <button ftc-right-sidenav-bottom mat-button type="button">Notifications</button>
+  <button ftc-right-sidenav-bottom mat-button type="button">
+    Notifications
+  </button>
 
   <mat-toolbar color="primary" ftc-content-bottom>
     <span>Layout Component Content Bottom</span>
   </mat-toolbar>
 </ftc-layout>
 
-<h4>Layout Demo </h4>
+<h4>Layout Demo</h4>
 
 <h5>Todo</h5>
