@@ -1,36 +1,47 @@
-import { Directive, TemplateRef, Output, EventEmitter } from "@angular/core";
+import {
+  Injectable,
+  TemplateRef,
+  EventEmitter,
+  Optional,
+  Inject,
+} from "@angular/core";
 import { ComponentType } from "@angular/cdk/portal";
-import { MatDialog, MatDialogConfig } from "@angular/material/dialog";
+import {
+  MatDialog,
+  MatDialogConfig,
+  MatDialogRef,
+  MAT_DIALOG_DEFAULT_OPTIONS,
+} from "@angular/material/dialog";
 import { takeUntil } from "rxjs";
 import { DirectiveBase } from "@freshthought/cdk/platform";
 
-export declare type DialogResult = {
-  event: string;
-  data: any;
-};
-
-@Directive()
+@Injectable({ providedIn: "root" })
 export class FtcDialog extends DirectiveBase {
-  @Output() closed = new EventEmitter<DialogResult>();
-  @Output() opened = new EventEmitter<void>();
-  constructor(private dialog: MatDialog) {
+  closed = new EventEmitter<any>();
+  opened = new EventEmitter<void>();
+  constructor(
+    private _dialog: MatDialog,
+    @Optional()
+    @Inject(MAT_DIALOG_DEFAULT_OPTIONS)
+    private _defaultOptions: MatDialogConfig
+  ) {
     super();
   }
 
   open<T>(
     element: ComponentType<T> | TemplateRef<T>,
-    config?: MatDialogConfig
-  ): void {
-    this.dialog
-      .open<T>(element, config)
+    config: MatDialogConfig = this._defaultOptions
+  ): MatDialogRef<T> {
+    config = config || this._defaultOptions;
+    const ref = this._dialog.open<T>(element, config);
+    ref
       .afterClosed()
       .pipe(takeUntil(this.destroyed$))
-      .subscribe((result) => {
-        this.closed.emit(result);
-      });
+      .subscribe((result) => this.closed.emit(result));
     this.opened.emit();
+    return ref;
   }
   close(): void {
-    this.dialog.closeAll();
+    this._dialog.closeAll();
   }
 }

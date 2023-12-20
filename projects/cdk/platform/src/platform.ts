@@ -18,3 +18,14 @@ export abstract class ComponentBase implements OnDestroy {
     this.destroyed$.complete();
   }
 }
+
+// export function Destroyable(target: any) {
+//   const Destory = class {
+//     protected readonly destroyed$ = new Subject<void>();
+//     ngOnDestroy(): void {
+//       this.destroyed$.next();
+//       this.destroyed$.complete();
+//     }
+//   };
+//   Object.assign(target.prototype, new Destory());
+// }
