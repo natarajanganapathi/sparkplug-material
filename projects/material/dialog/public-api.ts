@@ -1,1 +1,1 @@
-export * from './src/dialog';
+export * from './src/YesNoDialog/yes-no-dialog';

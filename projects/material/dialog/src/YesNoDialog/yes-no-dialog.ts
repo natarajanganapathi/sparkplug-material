@@ -20,7 +20,7 @@ export declare type FtcYesNoDialogData = FtcDialogData & {
 };
 
 export declare type FtcYesNoDialogResult = FtcDialogResult & {
-  confirmed: boolean;
+  result: boolean;
 };
 
 export declare type FtcYesNoDialogInput = FtcDialogInput<
@@ -34,8 +34,8 @@ export declare type FtcYesNoDialogInput = FtcDialogInput<
   selector: "ftc-yes-no-dialog",
   standalone: true,
   imports: [MatDialogModule, MatDialogTitle, MatButtonModule],
-  templateUrl: "./dialog.html",
-  styleUrl: "./dialog.scss",
+  templateUrl: "./yes-no-dialog.html",
+  styleUrl: "./yes-no-dialog.scss",
   providers: [],
 })
 export class FtcYesNoDialog extends ComponentBase {

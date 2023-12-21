@@ -27,10 +27,8 @@ export declare type FtcDialogInput<
 
 @Directive({ selector: "[ftcDialog]", standalone: true })
 export class FtcDialog extends DirectiveBase {
-  @Output() closed: EventEmitter<FtcDialogResult> =
-    new EventEmitter<FtcDialogResult>();
-  @Output() opened: EventEmitter<FtcDialogData> =
-    new EventEmitter<FtcDialogData>();
+  @Output() closed = new EventEmitter<FtcDialogResult>();
+  @Output() opened = new EventEmitter<FtcDialogData>();
   @Input() ftcDialog: FtcDialogInput<ComponentType<object>> = {
     element: FtcDialog,
     data: {},

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { FtcDialog } from './dialog';
+import { FtcYesNoDialog } from './yes-no-dialog';
 
-describe('DialogComponent', () => {
-  let component: FtcDialog;
-  let fixture: ComponentFixture<FtcDialog>;
+describe('FtcYesNoDialogComponent', () => {
+  let component: FtcYesNoDialog;
+  let fixture: ComponentFixture<FtcYesNoDialog>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [FtcDialog]
+      imports: [FtcYesNoDialog]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(FtcDialog);
+    fixture = TestBed.createComponent(FtcYesNoDialog);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
