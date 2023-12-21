@@ -1,1 +1,22 @@
-<button mat-button (click)="open()">Yes No Dialog</button>
+<button
+  mat-button
+  [ftcDialog]="yesNoDialogData"
+  (opened)="onOpen($event)"
+  (closed)="onClose($event)"
+>
+  Yes No Dialog
+</button>
+<div>
+  Input:
+  <pre>
+    {{ input }}
+</pre
+  >
+</div>
+<div>
+  Result:
+  <pre>
+    {{ result }}
+</pre
+  >
+</div>

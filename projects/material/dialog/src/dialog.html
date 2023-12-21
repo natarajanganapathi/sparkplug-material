@@ -1,6 +1,8 @@
-<div mat-dialog-title>{{data.title}}</div>
-<mat-dialog-content>{{data.message}}</mat-dialog-content>
-<mat-dialog-actions align="end">
-  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Yes</button>
-  <button mat-button [mat-dialog-close]="false">No</button>
+<div mat-dialog-title>{{dialog.data.header}}</div>
+<mat-dialog-content>{{dialog.data.message}}</mat-dialog-content>
+<mat-dialog-actions [align]="dialog.align">
+  <button mat-button [mat-dialog-close]="{result: true}">Yes</button>
+  <button mat-button [mat-dialog-close]="{result: false}" cdkFocusInitial>
+    No
+  </button>
 </mat-dialog-actions>

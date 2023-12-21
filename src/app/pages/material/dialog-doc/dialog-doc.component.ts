@@ -1,35 +1,43 @@
 import { Component } from "@angular/core";
-import {
-  MatDialogModule,
-  MatDialog
-} from "@angular/material/dialog";
+import { MatDialogModule } from "@angular/material/dialog";
 import { MatButtonModule } from "@angular/material/button";
 
 import {
   FtcYesNoDialog,
-  FtcYesNoDialogMessage,
+  FtcYesNoDialogData,
+  FtcYesNoDialogInput,
+  FtcYesNoDialogResult,
 } from "@freshthought/material/dialog";
+
+import {
+  FtcDialog,
+  FtcDialogData,
+  FtcDialogResult,
+} from "@freshthought/cdk/dialog";
 
 @Component({
   selector: "ftc-dialog-doc",
   standalone: true,
-  imports: [MatDialogModule, MatButtonModule],
+  imports: [MatDialogModule, MatButtonModule, FtcDialog],
   templateUrl: "./dialog-doc.component.html",
   styleUrl: "./dialog-doc.component.scss",
 })
 export class DialogDocComponent {
-  message: FtcYesNoDialogMessage = {
-    title: "Confirmation",
-    message: "Do you want to delete the record?",
+  yesNoDialogData: FtcYesNoDialogInput = {
+    element: FtcYesNoDialog,
+    data: {
+      header: "Confirmation",
+      message: "Do you want to delete the record?",
+    },
   };
-  constructor(private _dialog: MatDialog) {}
-
-  open() {
-    this._dialog
-      .open(FtcYesNoDialog, { data: this.message })
-      .afterClosed()
-      .subscribe((result) => {
-        console.log(result);
-      });
+  input = "";
+  result = "";
+  onOpen(event: FtcDialogData) {
+    const data = event as FtcYesNoDialogData;
+    this.input = JSON.stringify(data, null, 2);
+  }
+  onClose(event: FtcDialogResult) {
+    const data = event as FtcYesNoDialogResult;
+    this.result = JSON.stringify(data, null, 2);
   }
 }
