@@ -1,7 +1,7 @@
 import { Routes } from "@angular/router";
 import { LayoutDocComponent } from "./pages/material/layout-doc/layout-doc.component";
 import { GetStartedComponent } from "./pages/get-started/get-started.component";
-import { GridDocComponent } from "./pages/material/grid-doc/grid-doc.component";
+import { TableDocComponent } from "./pages/material/table-doc/table-doc.component";
 import { DialogDocComponent } from "./pages/material/dialog-doc/dialog-doc.component";
 import { NotificationDocComponent } from "./pages/material/notification-doc/notification-doc.component";
 import { JsonFormDocComponent } from "./pages/material/json-form-doc/json-form-doc.component";
@@ -30,7 +30,7 @@ export const routes: Routes = [
           { path: "", redirectTo: "layout-doc", pathMatch: "full" },
           { path: "layout-doc", component: LayoutDocComponent },
           { path: "action-menu-doc", component: ActionMenuComponent },
-          { path: "grid-doc", component: GridDocComponent },
+          { path: "table-doc", component: TableDocComponent },
           { path: "json-form-doc", component: JsonFormDocComponent },
           { path: "notification-doc", component: NotificationDocComponent },
           { path: "dialog-doc", component: DialogDocComponent },

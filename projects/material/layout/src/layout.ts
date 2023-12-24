@@ -145,10 +145,9 @@ export class FtcLayout extends ComponentBase implements OnInit {
     private breakpointObserver: BreakpointObserver,
     @Optional()
     @Inject(FTC_LAYOUT_DEFAULT_OPTIONS)
-    private layoutOptions: FtcLayoutOptions
+    private layoutOptions: FtcLayoutOptions = defaults
   ) {
     super();
-    layoutOptions = layoutOptions || defaults;
   }
 
   ngOnInit(): void {

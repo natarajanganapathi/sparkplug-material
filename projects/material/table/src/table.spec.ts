@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { GridDocComponent } from './grid-doc.component';
+import { FtcTable } from './table';
 
-describe('GridDocComponent', () => {
-  let component: GridDocComponent;
-  let fixture: ComponentFixture<GridDocComponent>;
+describe('GridComponent', () => {
+  let component: FtcTable<object>;
+  let fixture: ComponentFixture<FtcTable<object>>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [GridDocComponent]
+      imports: [FtcTable<object>]
     })
     .compileComponents();
     
-    fixture = TestBed.createComponent(GridDocComponent);
+    fixture = TestBed.createComponent(FtcTable<object>);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

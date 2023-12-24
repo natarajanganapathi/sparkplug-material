@@ -58,7 +58,7 @@ export class SidemenuComponent implements OnInit {
           route: "/pages/material/notification-doc",
           icon: "notifications",
         },
-        { label: "Grid", route: "/pages/material/grid-doc", icon: "apps" },
+        { label: "Table", route: "/pages/material/table-doc", icon: "apps" },
         { label: "Action Menu", route: "/pages/material/action-menu-doc", icon: "apps" },
         { label: "Dialog", route: "/pages/material/dialog-doc", icon: "apps" },
         { label: "JsonForm", route: "/pages/material/json-form-doc", icon: "apps" },

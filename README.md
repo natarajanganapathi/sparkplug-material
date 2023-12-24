@@ -10,7 +10,7 @@ ng generate library cdk
 Generate new componant
 
 ```ts
-ng generate component ActionMenu --standalone --flat --path projects/material/action-menu
+ng generate directive Table --standalone --flat --path projects/cdk/table
 ng generate service  --path projects/cdk/device
 ```
 
@@ -22,19 +22,20 @@ ng generate service  --path projects/cdk/device
 
 ## Todo:
 
-1. Husky setup
-2. Publish to npm registry pipeline in github packages - Done
-3. Create custome Schematics
-4. Setup the pipeline for CI and Publish the components and schematics to npm registry - Done
-5. Create Action Bar component - Manikandan
-6. Create Breadcremp Component - Manikandan
-7. Create JsonForm Component - Manikandan
-8. Create Theme / Load dynamic theme  - Manikandan
-8. Create Grid Component
-9. Create popup Component
-10. Create Button with waiting for response
-11. prettier --write setup
-
+1. Husky setup                                                                          -   Done
+2. Publish to npm registry pipeline in github packages                                  -   Done
+3. Create custome Schematics                                                            -   In-Progress
+4. Setup the pipeline for CI and Publish the components and schematics to npm registry  -   Done
+5. Create Action Bar component                                                          -   Manikandan
+6. Create Breadcremp Component                                                          -   Manikandan
+7. Create JsonForm Component                                                            -   Manikandan
+8. Create Theme / Load dynamic theme                                                    -   Manikandan
+9. Create Table Component                                                               -   In-Progress
+10. Create popup Component                                                              -   Done
+11. Create Button with waiting for response                                             -   
+12. prettier --write setup                                                              -   
+13. Master Data Grid - Functional componant                                             -   
+14. Busy indicator and Http Interceptor for busy indicator                              -   
 
 ## HUSKY setup
 
@@ -43,9 +44,7 @@ ng generate service  --path projects/cdk/device
 3. add pre-commit commands.
     ex. `husky add pre-commit -c "npm run doctor"`
 
-
 ## VSCode Plugins
 1. Angular Language Service >= v17.0.3
 2. ESLint >= v2.4.2
 3. JavaScript and TypeScript Nightly >= v5.4.20231217
-4. 
