@@ -2,29 +2,19 @@
   [tableOption]="tableOption"
   (rowClick)="onRowClick($event)"
   (sortChange)="onSortChange($event)"
-></ftc-table>
-<!-- 
-  [rowTemplate]="customRowTemplate"
-  [columnTemplate]="customColumnTemplate" 
--->
-
-<ng-template #customRowTemplate let-columns>
-  <tr mat-header-row *matHeaderRowDef="columns"></tr>
-  <tr mat-row *matRowDef="let row; columns: columns"></tr>
-</ng-template>
-
-<ng-template #customColumnTemplate let-column>
-  <ng-container
-    [matColumnDef]="column.columnDef"
-    [sticky]="column.sticky"
-    [stickyEnd]="column.stickyEnd"
-  >
-    <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
-      {{column.header??column.columnDef}}
-    </th>
-    <td mat-cell *matCellDef="let element">
-      {{ element[column.columnDef] }}
-    </td>
-  </ng-container>
-</ng-template>
-
+  [cellTemplate]="cutomCellTemplate"
+>
+  <ng-template #cutomCellTemplate let-cellDef>
+    @switch (cellDef.field) { @case ('action') {
+    @if(cellDef.header){{{cellDef.header}}} @else{
+    <button
+      mat-icon-button
+      color="default"
+      type="submit"
+      (click)="alerts('edit')"
+    >
+      <mat-icon>more_vert</mat-icon>
+    </button>
+    } } @default { {{ cellDef.value }} } }
+  </ng-template>
+</ftc-table>

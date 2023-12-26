@@ -12,7 +12,6 @@
   mat-table
   matSort
   [dataSource]="dataSource"
-  class="mat-elevation-z8"
   (matSortChange)="sortChange.emit($event)"
   cdkDropList
   cdkDropListOrientation="horizontal"
@@ -39,39 +38,32 @@
     </td>
   </ng-container>
 
-  @for( column of tableOption.columns; track column) {
+  @for( column of tableOption.columnDefs; track column) {
   <ng-container
-    [ngTemplateOutlet]="columnTemplate|| defaultColumnTemplate"
-    [ngTemplateOutletContext]="{$implicit: column}"
-  ></ng-container>
+    [matColumnDef]="column.field"
+    [sticky]="column.sticky"
+    [stickyEnd]="column.stickyEnd"
+  >
+    <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
+      <ng-container
+        [ngTemplateOutlet]="cellTemplate || defaultCellTemplate"
+        [ngTemplateOutletContext]="{$implicit: getCellDef(column.header || column.field, column.field, column.header)}"
+      ></ng-container>
+    </th>
+    <td mat-cell *matCellDef="let element">
+      <ng-container
+        [ngTemplateOutlet]="cellTemplate || defaultCellTemplate"
+        [ngTemplateOutletContext]="{$implicit: getCellDef( element[column.field], column.field)}"
+      ></ng-container>
+    </td>
+  </ng-container>
   }
-
-  <ng-container
-    [ngTemplateOutlet]="defaultRowTemplate"
-    [ngTemplateOutletContext]="{ $implicit: displayColumns()}"
-  ></ng-container>
-
-  <ng-template #defaultColumnTemplate let-column>
-    <ng-container
-      [matColumnDef]="column.columnDef"
-      [sticky]="column.sticky"
-      [stickyEnd]="column.stickyEnd"
-    >
-      <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
-        {{column.header??column.columnDef}}
-      </th>
-      <td mat-cell *matCellDef="let element">{{element[column.columnDef]}}</td>
-    </ng-container>
-  </ng-template>
-
-  <ng-template #defaultRowTemplate let-columnNames>
-    <tr mat-header-row *matHeaderRowDef="columnNames"></tr>
-    <tr
-      mat-row
-      *matRowDef="let row; columns: columnNames;"
-      (click)="rowClick.emit(row)"
-    ></tr>
-  </ng-template>
+  <tr mat-header-row *matHeaderRowDef="displayColumns()"></tr>
+  <tr
+    mat-row
+    *matRowDef="let row; columns: displayColumns();"
+    (click)="rowClick.emit(row)"
+  ></tr>
 </table>
 
 <mat-paginator
@@ -79,3 +71,7 @@
   showFirstLastButtons
   aria-label="Select page"
 ></mat-paginator>
+
+<ng-template #defaultCellTemplate let-cellDef>
+  {{cellDef.value}}
+</ng-template>

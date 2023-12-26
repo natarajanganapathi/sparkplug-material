@@ -26,8 +26,14 @@ import {
 } from "@angular/cdk/drag-drop";
 import { ComponentBase, FtcAttr } from "@freshthought/cdk/platform";
 
-export declare type FtcTableColumnOption = {
-  columnDef: string;
+export declare type FtcCellDef = {
+  header?: string;
+  field: string;
+  value: string | object;
+};
+
+export declare type FtcColumnDef = {
+  field: string;
   header?: string;
   order?: number;
   sort?: boolean;
@@ -35,9 +41,9 @@ export declare type FtcTableColumnOption = {
   stickyEnd?: boolean;
 };
 
-export declare type FtcTableOption<T> = {
+export declare type FtcTableDef<T> = {
   caption?: string;
-  columns: FtcTableColumnOption[];
+  columnDefs: FtcColumnDef[];
   data: T[];
   header?: boolean;
   footer?: boolean;
@@ -65,9 +71,8 @@ export class FtcTable<T>
   extends ComponentBase
   implements OnInit, AfterViewInit
 {
-  @Input() tableOption: FtcTableOption<T> = { columns: [], data: [] };
-  @Input() rowTemplate!: TemplateRef<object>;
-  @Input() columnTemplate!: TemplateRef<object>;
+  @Input() tableOption: FtcTableDef<T> = { columnDefs: [], data: [] };
+  @Input() cellTemplate!: TemplateRef<object>;
 
   @Output() rowClick = new EventEmitter<T>();
   @Output() sortChange = new EventEmitter<object>();
@@ -79,11 +84,20 @@ export class FtcTable<T>
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-
+  context = {
+    tableOption: this.tableOption,
+    displayColumns: this.displayColumns,
+  };
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<T>(this.tableOption.data);
-    this.displayColumns.set(this.getDesplayColumns(this.tableOption.columns));
-    this.sortEnabled.set(this.tableOption.columns.some((x) => x.sort));
+    this.displayColumns.set(
+      this.getDesplayColumns(this.tableOption.columnDefs)
+    );
+    this.sortEnabled.set(this.tableOption.columnDefs.some((x) => x.sort));
+    this.context = {
+      tableOption: this.tableOption,
+      displayColumns: this.displayColumns,
+    };
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -105,25 +119,25 @@ export class FtcTable<T>
       this.dataSource.paginator.firstPage();
     }
   }
-  getDesplayColumns(columns: FtcTableColumnOption[]): string[] {
-    return ["select", ...columns.map((x) => x.columnDef)];
+  getDesplayColumns(columns: FtcColumnDef[]): string[] {
+    return ["select", ...columns.map((x) => x.field)];
   }
-  addColumn(option: FtcTableColumnOption) {
-    const updatedColumns = [...this.tableOption.columns, option];
+  addColumn(option: FtcColumnDef) {
+    const updatedColumns = [...this.tableOption.columnDefs, option];
     const sortedColumns = this.sortColumnsByOrder(updatedColumns);
     this.updateColumns(sortedColumns);
   }
-  removeColumn(option: FtcTableColumnOption) {
-    const updatedColumns = this.tableOption.columns.filter(
-      (x) => x.columnDef !== option.columnDef
+  removeColumn(option: FtcColumnDef) {
+    const updatedColumns = this.tableOption.columnDefs.filter(
+      (x) => x.field !== option.field
     );
     this.updateColumns(updatedColumns);
   }
-  sortColumnsByOrder(columns: FtcTableColumnOption[]): FtcTableColumnOption[] {
+  sortColumnsByOrder(columns: FtcColumnDef[]): FtcColumnDef[] {
     return columns.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
   }
-  updateColumns(columns: FtcTableColumnOption[]) {
-    this.tableOption.columns = columns;
+  updateColumns(columns: FtcColumnDef[]) {
+    this.tableOption.columnDefs = columns;
     this.displayColumns.set(this.getDesplayColumns(columns));
   }
   isAllSelected() {
@@ -143,5 +157,12 @@ export class FtcTable<T>
       return `${this.isAllSelected() ? "deselect" : "select"} all`;
     }
     return `${this.selection.isSelected(row) ? "deselect" : "select"} row `;
+  }
+  getCellDef(
+    value: string | object,
+    field: string,
+    header?: string
+  ): FtcCellDef {
+    return { value, field, header };
   }
 }
