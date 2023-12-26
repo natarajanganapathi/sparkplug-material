@@ -8,6 +8,7 @@ import {
   ViewChild,
   signal,
   WritableSignal,
+  TemplateRef,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
 import { MatCheckboxModule } from "@angular/material/checkbox";
@@ -65,11 +66,14 @@ export class FtcTable<T>
   implements OnInit, AfterViewInit
 {
   @Input() tableOption: FtcTableOption<T> = { columns: [], data: [] };
+  @Input() rowTemplate!: TemplateRef<object>;
+  @Input() columnTemplate!: TemplateRef<object>;
+
   @Output() rowClick = new EventEmitter<T>();
   @Output() sortChange = new EventEmitter<object>();
 
   dataSource!: MatTableDataSource<T>;
-  columns: WritableSignal<string[]> = signal([]);
+  displayColumns: WritableSignal<string[]> = signal([]);
   sortEnabled: WritableSignal<boolean> = signal(false);
   selection = new SelectionModel<T>(true, []);
 
@@ -78,17 +82,20 @@ export class FtcTable<T>
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<T>(this.tableOption.data);
-    this.columns.set(this.getDesplayColumns(this.tableOption.columns));
+    this.displayColumns.set(this.getDesplayColumns(this.tableOption.columns));
     this.sortEnabled.set(this.tableOption.columns.some((x) => x.sort));
   }
-
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
   drop(data: object) {
     const event: CdkDragDrop<string[]> = data as CdkDragDrop<string[]>;
-    moveItemInArray(this.columns(), event.previousIndex, event.currentIndex);
+    moveItemInArray(
+      this.displayColumns(),
+      event.previousIndex,
+      event.currentIndex
+    );
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -112,22 +119,18 @@ export class FtcTable<T>
     );
     this.updateColumns(updatedColumns);
   }
-  private sortColumnsByOrder(
-    columns: FtcTableColumnOption[]
-  ): FtcTableColumnOption[] {
+  sortColumnsByOrder(columns: FtcTableColumnOption[]): FtcTableColumnOption[] {
     return columns.sort((a, b) => (a.order ?? 0) - (b.order ?? 0));
   }
-  private updateColumns(columns: FtcTableColumnOption[]) {
+  updateColumns(columns: FtcTableColumnOption[]) {
     this.tableOption.columns = columns;
-    this.columns.set(this.getDesplayColumns(columns));
+    this.displayColumns.set(this.getDesplayColumns(columns));
   }
-
   isAllSelected() {
     const numSelected = this.selection.selected.length;
     const numRows = this.dataSource.data.length;
     return numSelected === numRows;
   }
-
   toggleAllRows() {
     if (this.isAllSelected()) {
       this.selection.clear();
@@ -135,7 +138,6 @@ export class FtcTable<T>
     }
     this.selection.select(...this.dataSource.data);
   }
-
   checkboxLabel(row?: T): string {
     if (!row) {
       return `${this.isAllSelected() ? "deselect" : "select"} all`;

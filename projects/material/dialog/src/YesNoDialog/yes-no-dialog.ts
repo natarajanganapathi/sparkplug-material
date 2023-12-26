@@ -1,4 +1,4 @@
-import { Component, Inject } from "@angular/core";
+import { Component, inject } from "@angular/core";
 import { ComponentType } from "@angular/cdk/portal";
 import {
   MatDialogModule,
@@ -39,12 +39,8 @@ export declare type FtcYesNoDialogInput = FtcDialogInput<
   providers: [],
 })
 export class FtcYesNoDialog extends ComponentBase {
-  constructor(
-    private dialogRef: MatDialogRef<FtcYesNoDialog>,
-    @Inject(MAT_DIALOG_DATA) public dialog: FtcYesNoDialogInput
-  ) {
-    super();
-  }
+  dialogRef = inject(MatDialogRef<FtcYesNoDialog>);
+  dialog: FtcYesNoDialogInput = inject(MAT_DIALOG_DATA);
   close() {
     this.dialogRef.close();
   }

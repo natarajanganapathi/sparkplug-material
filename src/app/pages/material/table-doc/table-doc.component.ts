@@ -1,10 +1,11 @@
 import { Component } from "@angular/core";
+import { MatTableModule } from "@angular/material/table";
 import { FtcTable, FtcTableOption } from "@freshthought/material/table";
 
 @Component({
   selector: "ftc-table-doc",
   standalone: true,
-  imports: [FtcTable],
+  imports: [FtcTable, MatTableModule],
   templateUrl: "./table-doc.component.html",
   styleUrl: "./table-doc.component.scss",
 })

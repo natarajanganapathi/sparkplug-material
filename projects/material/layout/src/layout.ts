@@ -3,8 +3,7 @@ import {
   ViewChild,
   signal,
   InjectionToken,
-  Optional,
-  Inject,
+  inject,
   OnInit,
 } from "@angular/core";
 import { CommonModule } from "@angular/common";
@@ -116,6 +115,10 @@ const defaults = FTC_LAYOUT_DEFAULT_OPTIONS_FACTORY();
   ],
 })
 export class FtcLayout extends ComponentBase implements OnInit {
+  breakpointObserver = inject(BreakpointObserver);
+  layoutOptions: FtcLayoutOptions =
+    inject(FTC_LAYOUT_DEFAULT_OPTIONS) || defaults;
+
   @ViewChild("leftSideNav") leftSidenav?: MatSidenav;
   @ViewChild("rightSideNav") rightSidenav?: MatSidenav;
 
@@ -140,15 +143,6 @@ export class FtcLayout extends ComponentBase implements OnInit {
 
   leftSidenavMinMaxWidth: MinMaxWidth = { minWidth: 0, maxWidth: 0 };
   rightSidenavMinMaxWidth: MinMaxWidth = { minWidth: 0, maxWidth: 0 };
-
-  constructor(
-    private breakpointObserver: BreakpointObserver,
-    @Optional()
-    @Inject(FTC_LAYOUT_DEFAULT_OPTIONS)
-    private layoutOptions: FtcLayoutOptions = defaults
-  ) {
-    super();
-  }
 
   ngOnInit(): void {
     this.breakpointObserver
