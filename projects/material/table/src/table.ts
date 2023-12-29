@@ -14,10 +14,13 @@ import { CommonModule } from "@angular/common";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { SelectionModel } from "@angular/cdk/collections";
 import { MatTableModule, MatTableDataSource } from "@angular/material/table";
+import { MatToolbarModule } from "@angular/material/toolbar";
 import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
 import { MatSort, MatSortModule } from "@angular/material/sort";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
 import {
   CdkDragDrop,
   CdkDrag,
@@ -25,6 +28,7 @@ import {
   moveItemInArray,
 } from "@angular/cdk/drag-drop";
 import { ComponentBase, FtcAttr } from "@freshthought/cdk/platform";
+import { BooleanInput } from "@angular/cdk/coercion";
 
 export declare type FtcCellDef = {
   header?: string;
@@ -60,6 +64,9 @@ export declare type FtcTableDef<T> = {
     MatSortModule,
     MatInputModule,
     MatFormFieldModule,
+    MatToolbarModule,
+    MatIconModule,
+    MatButtonModule,
     CdkDropList,
     CdkDrag,
     FtcAttr,
@@ -73,6 +80,7 @@ export class FtcTable<T>
 {
   @Input() tableOption: FtcTableDef<T> = { columnDefs: [], data: [] };
   @Input() cellTemplate!: TemplateRef<object>;
+  @Input() multiSelection: BooleanInput = false;
 
   @Output() rowClick = new EventEmitter<T>();
   @Output() sortChange = new EventEmitter<object>();
@@ -120,7 +128,8 @@ export class FtcTable<T>
     }
   }
   getDesplayColumns(columns: FtcColumnDef[]): string[] {
-    return ["select", ...columns.map((x) => x.field)];
+    const columName = columns.map((x) => x.field);
+    return this.multiSelection ? ["select", ...columName] : columName;
   }
   addColumn(option: FtcColumnDef) {
     const updatedColumns = [...this.tableOption.columnDefs, option];

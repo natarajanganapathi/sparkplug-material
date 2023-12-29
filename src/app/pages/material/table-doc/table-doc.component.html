@@ -1,9 +1,11 @@
-<ftc-table
+<ftc-table 
   [tableOption]="tableOption"
   (rowClick)="onRowClick($event)"
   (sortChange)="onSortChange($event)"
   [cellTemplate]="cutomCellTemplate"
+  [multiSelection]="true"
 >
+
   <ng-template #cutomCellTemplate let-cellDef>
     @switch (cellDef.field) { @case ('action') {
     @if(cellDef.header){{{cellDef.header}}} @else{

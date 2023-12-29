@@ -1,4 +1,4 @@
-<mat-form-field>
+<!-- <mat-form-field>
   <mat-label>Filter</mat-label>
   <input
     matInput
@@ -6,8 +6,20 @@
     placeholder="Search Text"
     #input
   />
-</mat-form-field>
+</mat-form-field> -->
 
+<mat-toolbar>
+  <span>Title</span>
+  <span class="x-spacer"></span>
+  <mat-paginator
+    [pageSizeOptions]="[5, 10, 20]"
+    showFirstLastButtons
+    aria-label="Select page"
+  ></mat-paginator>
+  <button mat-icon-button>
+    <mat-icon>menu</mat-icon>
+  </button>
+</mat-toolbar>
 <table
   mat-table
   matSort
@@ -65,12 +77,6 @@
     (click)="rowClick.emit(row)"
   ></tr>
 </table>
-
-<mat-paginator
-  [pageSizeOptions]="[5, 10, 20]"
-  showFirstLastButtons
-  aria-label="Select page"
-></mat-paginator>
 
 <ng-template #defaultCellTemplate let-cellDef>
   {{cellDef.value}}

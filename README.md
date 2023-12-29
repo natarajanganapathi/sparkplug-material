@@ -19,6 +19,7 @@ ng generate service  --path projects/cdk/device
 1. [Create Standalone Components](https://sandroroth.com/blog/angular-library)
 2. [Create Angular Schematics](https://blog.angular.io/schematics-an-introduction-dc1dfbc2a2b2)
 3. [Angular 17 Control Flow (for, if)](https://www.techiediaries.com/angular-17-new-control-flow-examples/)
+4. [viewflow UI reference](https://demo.viewflow.io/atlas/city/?page=1)
 
 ## Todo:
 
