@@ -3,20 +3,21 @@
   (rowClick)="onRowClick($event)"
   (sortChange)="onSortChange($event)"
   [cellTemplate]="cutomCellTemplate"
-  [multiSelection]="true"
+  [multiSelect]="true"
+  [expand]="true"
 >
-
-  <ng-template #cutomCellTemplate let-cellDef>
-    @switch (cellDef.field) { @case ('action') {
-    @if(cellDef.header){{{cellDef.header}}} @else{
-    <button
-      mat-icon-button
-      color="default"
-      type="submit"
-      (click)="alerts('edit')"
-    >
-      <mat-icon>more_vert</mat-icon>
-    </button>
-    } } @default { {{ cellDef.value }} } }
-  </ng-template>
 </ftc-table>
+
+<ng-template #cutomCellTemplate let-cellDef>
+  @switch (cellDef.field) { @case ('action') {
+  @if(cellDef.header){{{cellDef.header}}} @else{
+  <button
+    mat-icon-button
+    color="default"
+    type="submit"
+    (click)="alerts('edit')"
+  >
+    <mat-icon>more_vert</mat-icon>
+  </button>
+  } } @default { {{ cellDef.value }} } }
+</ng-template>

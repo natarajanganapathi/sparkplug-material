@@ -1,6 +1,12 @@
-mat-toolbar {
-    background-color: var(--mat-table-background-color);
-}
-.x-spacer {
-    flex: 1 1 auto;
+:host {
+    
+    mat-toolbar {
+        background-color: var(--mat-table-background-color);
+    }
+    .x-spacer {
+        flex: 1 1 auto;
+    }
+    .mat-column-expand, .mat-column-multiSelect {
+        width: 80px;
+    }
 }

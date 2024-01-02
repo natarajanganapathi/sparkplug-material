@@ -10,6 +10,13 @@ import {
   WritableSignal,
   TemplateRef,
 } from "@angular/core";
+import {
+  animate,
+  state,
+  style,
+  transition,
+  trigger,
+} from "@angular/animations";
 import { CommonModule } from "@angular/common";
 import { MatCheckboxModule } from "@angular/material/checkbox";
 import { SelectionModel } from "@angular/cdk/collections";
@@ -29,6 +36,7 @@ import {
 } from "@angular/cdk/drag-drop";
 import { ComponentBase, FtcAttr } from "@freshthought/cdk/platform";
 import { BooleanInput } from "@angular/cdk/coercion";
+import { ComponentType } from "@angular/cdk/portal";
 
 export declare type FtcCellDef = {
   header?: string;
@@ -43,6 +51,7 @@ export declare type FtcColumnDef = {
   sort?: boolean;
   sticky?: boolean;
   stickyEnd?: boolean;
+  componant?: ComponentType<any> | TemplateRef<any>;
 };
 
 export declare type FtcTableDef<T> = {
@@ -51,6 +60,7 @@ export declare type FtcTableDef<T> = {
   data: T[];
   header?: boolean;
   footer?: boolean;
+  expandComponant?: ComponentType<any> | TemplateRef<any>;
 };
 
 @Component({
@@ -73,6 +83,16 @@ export declare type FtcTableDef<T> = {
   ],
   templateUrl: "./table.html",
   styleUrl: "./table.scss",
+  animations: [
+    trigger("detailExpand", [
+      state("collapsed,void", style({ height: "0px", minHeight: "0" })),
+      state("expanded", style({ height: "*" })),
+      transition(
+        "expanded <=> collapsed",
+        animate("225ms cubic-bezier(0.4, 0.0, 0.2, 1)")
+      ),
+    ]),
+  ],
 })
 export class FtcTable<T>
   extends ComponentBase
@@ -80,7 +100,8 @@ export class FtcTable<T>
 {
   @Input() tableOption: FtcTableDef<T> = { columnDefs: [], data: [] };
   @Input() cellTemplate!: TemplateRef<object>;
-  @Input() multiSelection: BooleanInput = false;
+  @Input() multiSelect: BooleanInput = false;
+  @Input() expand: BooleanInput = false;
 
   @Output() rowClick = new EventEmitter<T>();
   @Output() sortChange = new EventEmitter<object>();
@@ -89,6 +110,7 @@ export class FtcTable<T>
   displayColumns: WritableSignal<string[]> = signal([]);
   sortEnabled: WritableSignal<boolean> = signal(false);
   selection = new SelectionModel<T>(true, []);
+  expandedElement!: T;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -99,7 +121,7 @@ export class FtcTable<T>
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<T>(this.tableOption.data);
     this.displayColumns.set(
-      this.getDesplayColumns(this.tableOption.columnDefs)
+      this.getDisplayColumns(this.tableOption.columnDefs)
     );
     this.sortEnabled.set(this.tableOption.columnDefs.some((x) => x.sort));
     this.context = {
@@ -127,9 +149,14 @@ export class FtcTable<T>
       this.dataSource.paginator.firstPage();
     }
   }
-  getDesplayColumns(columns: FtcColumnDef[]): string[] {
-    const columName = columns.map((x) => x.field);
-    return this.multiSelection ? ["select", ...columName] : columName;
+  getDisplayColumns(columns: FtcColumnDef[]): string[] {
+    const columnNames = columns.map(({ field }) => field);
+    const additionalColumns = ["expand", "multiSelect"].filter(
+      (col) => (this as any)[col]
+    );
+    return additionalColumns.length > 0
+      ? [...additionalColumns, ...columnNames]
+      : columnNames;
   }
   addColumn(option: FtcColumnDef) {
     const updatedColumns = [...this.tableOption.columnDefs, option];
@@ -147,7 +174,7 @@ export class FtcTable<T>
   }
   updateColumns(columns: FtcColumnDef[]) {
     this.tableOption.columnDefs = columns;
-    this.displayColumns.set(this.getDesplayColumns(columns));
+    this.displayColumns.set(this.getDisplayColumns(columns));
   }
   isAllSelected() {
     const numSelected = this.selection.selected.length;
@@ -167,11 +194,7 @@ export class FtcTable<T>
     }
     return `${this.selection.isSelected(row) ? "deselect" : "select"} row `;
   }
-  getCellDef(
-    value: string | object,
-    field: string,
-    header?: string
-  ): FtcCellDef {
-    return { value, field, header };
+  getCellDef(value: string | object, field: string): FtcCellDef {
+    return { value, field };
   }
 }
