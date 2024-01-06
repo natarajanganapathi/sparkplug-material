@@ -6,7 +6,10 @@
     .x-spacer {
         flex: 1 1 auto;
     }
-    .mat-column-expand, .mat-column-multiSelect {
+    .mat-column-multiSelect {
         width: 80px;
     }
+    tr.expand-detail-row {
+        height: 0;
+      }
 }

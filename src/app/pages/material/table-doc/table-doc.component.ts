@@ -20,7 +20,7 @@ import { FtcTable, FtcTableDef } from "@freshthought/material/table";
 })
 export class TableDocComponent {
   tableOption: FtcTableDef<object> = {
-    // caption: "Demo Table",
+    caption: "Demo Table",
     expandComponant: FtcTable<object>,
     columnDefs: [
       { field: "id", header: "Id", sort: true, order: 1 },
@@ -28,7 +28,7 @@ export class TableDocComponent {
       { field: "age", header: "Age", order: 3 },
       { field: "place", header: "Place", order: 3 },
       { field: "isAdmin", header: "Admin", order: 3 },
-      { field: "action", header: "Action", sort: false, stickyEnd: true },
+      // { field: "action", header: "Action", sort: false, stickyEnd: true },
     ],
     data: [
       { id: 1, name: "Natarajan", age: 38, place: "Namakkal", isAdmin: true },

@@ -22,8 +22,12 @@ import { MatCheckboxModule } from "@angular/material/checkbox";
 import { SelectionModel } from "@angular/cdk/collections";
 import { MatTableModule, MatTableDataSource } from "@angular/material/table";
 import { MatToolbarModule } from "@angular/material/toolbar";
-import { MatPaginator, MatPaginatorModule } from "@angular/material/paginator";
-import { MatSort, MatSortModule } from "@angular/material/sort";
+import {
+  MatPaginator,
+  MatPaginatorModule,
+  PageEvent,
+} from "@angular/material/paginator";
+import { MatSort, MatSortModule, Sort } from "@angular/material/sort";
 import { MatInputModule } from "@angular/material/input";
 import { MatFormFieldModule } from "@angular/material/form-field";
 import { MatButtonModule } from "@angular/material/button";
@@ -51,6 +55,7 @@ export declare type FtcColumnDef = {
   sort?: boolean;
   sticky?: boolean;
   stickyEnd?: boolean;
+  width?: string;
   componant?: ComponentType<any> | TemplateRef<any>;
 };
 
@@ -99,42 +104,42 @@ export class FtcTable<T>
   implements OnInit, AfterViewInit
 {
   @Input() tableOption: FtcTableDef<T> = { columnDefs: [], data: [] };
-  @Input() cellTemplate!: TemplateRef<object>;
+
+  @Input() headerCellTemplate!: TemplateRef<any>;
+  @Input() valueCellTemplate!: TemplateRef<any>;
+  @Input() expandCellTemplate!: TemplateRef<any>;
+  @Input() actionCellTemplate!: TemplateRef<any>;
+
   @Input() multiSelect: BooleanInput = false;
-  @Input() expand: BooleanInput = false;
 
   @Output() rowClick = new EventEmitter<T>();
-  @Output() sortChange = new EventEmitter<object>();
+  @Output() sortChange = new EventEmitter<Sort>();
+  @Output() pageChange = new EventEmitter<PageEvent>();
 
   dataSource!: MatTableDataSource<T>;
   displayColumns: WritableSignal<string[]> = signal([]);
+
   sortEnabled: WritableSignal<boolean> = signal(false);
   selection = new SelectionModel<T>(true, []);
   expandedElement!: T;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
-  context = {
-    tableOption: this.tableOption,
-    displayColumns: this.displayColumns,
-  };
+
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<T>(this.tableOption.data);
-    this.displayColumns.set(
-      this.getDisplayColumns(this.tableOption.columnDefs)
-    );
+    // this.additionalColumns = ["multiSelect", "actions"].filter(
+    //   (col) => (this as any)[col]
+    // );
+    this.displayColumns.set(this.getAllColumnName(this.tableOption.columnDefs));
     this.sortEnabled.set(this.tableOption.columnDefs.some((x) => x.sort));
-    this.context = {
-      tableOption: this.tableOption,
-      displayColumns: this.displayColumns,
-    };
   }
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
   }
   drop(data: object) {
-    const event: CdkDragDrop<string[]> = data as CdkDragDrop<string[]>;
+    const event = data as CdkDragDrop<string[]>;
     moveItemInArray(
       this.displayColumns(),
       event.previousIndex,
@@ -144,19 +149,20 @@ export class FtcTable<T>
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
-
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
   }
-  getDisplayColumns(columns: FtcColumnDef[]): string[] {
+
+  getAllColumnName(columns: FtcColumnDef[]): string[] {
     const columnNames = columns.map(({ field }) => field);
-    const additionalColumns = ["expand", "multiSelect"].filter(
-      (col) => (this as any)[col]
-    );
-    return additionalColumns.length > 0
-      ? [...additionalColumns, ...columnNames]
-      : columnNames;
+    if (this.multiSelect) {
+      columnNames.unshift("multiSelect");
+    }
+    if (this.actionCellTemplate || this.expandCellTemplate) {
+      columnNames.push("actions");
+    }
+    return columnNames;
   }
   addColumn(option: FtcColumnDef) {
     const updatedColumns = [...this.tableOption.columnDefs, option];
@@ -174,7 +180,7 @@ export class FtcTable<T>
   }
   updateColumns(columns: FtcColumnDef[]) {
     this.tableOption.columnDefs = columns;
-    this.displayColumns.set(this.getDisplayColumns(columns));
+    this.displayColumns.set(this.getAllColumnName(columns));
   }
   isAllSelected() {
     const numSelected = this.selection.selected.length;

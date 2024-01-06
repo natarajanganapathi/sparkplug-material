@@ -1,16 +1,14 @@
-<ftc-table 
+<ftc-table
   [tableOption]="tableOption"
   (rowClick)="onRowClick($event)"
   (sortChange)="onSortChange($event)"
-  [cellTemplate]="cutomCellTemplate"
+  [valueCellTemplate]="customValueCellTemplate"
+  [actionCellTemplate]="customActionCellTmplate"
+  [expandCellTemplate]="customExpandCellTmplate"
   [multiSelect]="true"
-  [expand]="true"
->
-</ftc-table>
+></ftc-table>
 
-<ng-template #cutomCellTemplate let-cellDef>
-  @switch (cellDef.field) { @case ('action') {
-  @if(cellDef.header){{{cellDef.header}}} @else{
+<ng-template #customActionCellTmplate let-cellDef>
   <button
     mat-icon-button
     color="default"
@@ -19,5 +17,12 @@
   >
     <mat-icon>more_vert</mat-icon>
   </button>
-  } } @default { {{ cellDef.value }} } }
+</ng-template>
+
+<ng-template #customValueCellTemplate let-cellDef>
+  {{ cellDef.value }}
+</ng-template>
+
+<ng-template #customExpandCellTmplate>
+  <ftc-table [tableOption]="tableOption"></ftc-table>
 </ng-template>

@@ -1,7 +1,3 @@
-.x-spacer {
-    flex: 1 1 auto;
-}
-
-:host .outlet {
-    margin: 100px !important ;
+:host {
+    user-select: none;
 }
