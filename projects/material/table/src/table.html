@@ -94,7 +94,13 @@
     [sticky]="column.sticky"
     [stickyEnd]="column.stickyEnd"
   >
-    <th mat-header-cell *matHeaderCellDef mat-sort-header cdkDrag>
+    <th
+      mat-header-cell
+      *matHeaderCellDef
+      mat-sort-header
+      cdkDrag
+      [style]="column.style"
+    >
       <ng-container
         [ngTemplateOutlet]="headerCellTemplate || defaultCellTemplate"
         [ngTemplateOutletContext]="{$implicit: getCellDef(column.header || column.field, column.field)}"
@@ -112,7 +118,7 @@
   <tr
     mat-row
     *matRowDef="let row; columns: displayColumns(); when expandedElement === null"
-    (click)="expandedElement = expandedElement === row ? null : row"
+    (click)="expand(row)"
   ></tr>
   <tr
     mat-row

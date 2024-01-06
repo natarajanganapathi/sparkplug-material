@@ -11,11 +11,10 @@
 <ng-template #customActionCellTmplate let-cellDef>
   <button
     mat-icon-button
-    color="default"
     type="submit"
-    (click)="alerts('edit')"
+    (click)="alerts('edit'); $event.stopPropagation();"
   >
-    <mat-icon>more_vert</mat-icon>
+    <mat-icon>delete_outline</mat-icon>
   </button>
 </ng-template>
 

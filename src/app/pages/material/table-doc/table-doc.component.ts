@@ -21,14 +21,39 @@ import { FtcTable, FtcTableDef } from "@freshthought/material/table";
 export class TableDocComponent {
   tableOption: FtcTableDef<object> = {
     caption: "Demo Table",
-    expandComponant: FtcTable<object>,
     columnDefs: [
-      { field: "id", header: "Id", sort: true, order: 1 },
-      { field: "name", header: "Name", order: 2 },
-      { field: "age", header: "Age", order: 3 },
-      { field: "place", header: "Place", order: 3 },
-      { field: "isAdmin", header: "Admin", order: 3 },
-      // { field: "action", header: "Action", sort: false, stickyEnd: true },
+      {
+        field: "id",
+        header: "Id",
+        sort: true,
+        order: 6,
+        style: { width: "160px" },
+      },
+      {
+        field: "name",
+        header: "Name",
+        sort: true,
+        order: 2,
+        style: { width: "160px" },
+      },
+      {
+        field: "age",
+        header: "Age",
+        order: 3,
+        style: { width: "160px" },
+      },
+      {
+        field: "place",
+        header: "Place",
+        order: 4,
+        style: { width: "160px" },
+      },
+      {
+        field: "isAdmin",
+        header: "Admin",
+        order: 5,
+        style: { width: "160px" },
+      },
     ],
     data: [
       { id: 1, name: "Natarajan", age: 38, place: "Namakkal", isAdmin: true },

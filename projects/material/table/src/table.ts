@@ -55,7 +55,7 @@ export declare type FtcColumnDef = {
   sort?: boolean;
   sticky?: boolean;
   stickyEnd?: boolean;
-  width?: string;
+  style?: CSSStyleDeclaration | object;
   componant?: ComponentType<any> | TemplateRef<any>;
 };
 
@@ -65,7 +65,6 @@ export declare type FtcTableDef<T> = {
   data: T[];
   header?: boolean;
   footer?: boolean;
-  expandComponant?: ComponentType<any> | TemplateRef<any>;
 };
 
 @Component({
@@ -128,9 +127,6 @@ export class FtcTable<T>
 
   ngOnInit(): void {
     this.dataSource = new MatTableDataSource<T>(this.tableOption.data);
-    // this.additionalColumns = ["multiSelect", "actions"].filter(
-    //   (col) => (this as any)[col]
-    // );
     this.displayColumns.set(this.getAllColumnName(this.tableOption.columnDefs));
     this.sortEnabled.set(this.tableOption.columnDefs.some((x) => x.sort));
   }
@@ -202,5 +198,8 @@ export class FtcTable<T>
   }
   getCellDef(value: string | object, field: string): FtcCellDef {
     return { value, field };
+  }
+  expand(row: any) {
+    this.expandedElement = this.expandedElement === row ? null : row;
   }
 }
