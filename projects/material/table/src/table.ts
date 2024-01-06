@@ -9,6 +9,7 @@ import {
   signal,
   WritableSignal,
   TemplateRef,
+  Injector,
 } from "@angular/core";
 import {
   animate,
@@ -40,32 +41,7 @@ import {
 } from "@angular/cdk/drag-drop";
 import { ComponentBase, FtcAttr } from "@freshthought/cdk/platform";
 import { BooleanInput } from "@angular/cdk/coercion";
-import { ComponentType } from "@angular/cdk/portal";
-
-export declare type FtcCellDef = {
-  header?: string;
-  field: string;
-  value: string | object;
-};
-
-export declare type FtcColumnDef = {
-  field: string;
-  header?: string;
-  order?: number;
-  sort?: boolean;
-  sticky?: boolean;
-  stickyEnd?: boolean;
-  style?: CSSStyleDeclaration | object;
-  componant?: ComponentType<any> | TemplateRef<any>;
-};
-
-export declare type FtcTableDef<T> = {
-  caption?: string;
-  columnDefs: FtcColumnDef[];
-  data: T[];
-  header?: boolean;
-  footer?: boolean;
-};
+import { FtcTableDef, FtcColumnDef, FtcCellDef } from "./definitions";
 
 @Component({
   selector: "ftc-table",
@@ -102,12 +78,16 @@ export class FtcTable<T>
   extends ComponentBase
   implements OnInit, AfterViewInit
 {
-  @Input() tableOption: FtcTableDef<T> = { columnDefs: [], data: [] };
+  @Input() tableOption!: FtcTableDef<T>;
 
   @Input() headerCellTemplate!: TemplateRef<any>;
-  @Input() valueCellTemplate!: TemplateRef<any>;
-  @Input() expandCellTemplate!: TemplateRef<any>;
   @Input() actionCellTemplate!: TemplateRef<any>;
+
+  @Input() valueCellTemplate!: TemplateRef<any>;
+  @Input() valueCellTemplateInjector!: Injector;
+
+  @Input() expandCellTemplate!: TemplateRef<any>;
+  @Input() expandCellTemplateInjector!: Injector;
 
   @Input() multiSelect: BooleanInput = false;
 
@@ -196,8 +176,19 @@ export class FtcTable<T>
     }
     return `${this.selection.isSelected(row) ? "deselect" : "select"} row `;
   }
-  getCellDef(value: string | object, field: string): FtcCellDef {
-    return { value, field };
+  getCellDef(
+    value: string | object,
+    field: string,
+    column: FtcColumnDef
+  ): FtcCellDef {
+    return { value, field, column };
+  }
+  getCellInput(name: string, column: FtcColumnDef, data: T) {
+    if (!this.tableOption.context[name]) {
+      throw new Error(`${name} is not registered in context`);
+    }
+    const value = this.tableOption.context[name](column, data);
+    return { ...value, disabled: true };
   }
   expand(row: any) {
     this.expandedElement = this.expandedElement === row ? null : row;

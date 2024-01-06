@@ -1,5 +1,5 @@
 <ftc-table
-  [tableOption]="tableOption"
+  [tableOption]="tableConfig"
   (rowClick)="onRowClick($event)"
   (sortChange)="onSortChange($event)"
   [valueCellTemplate]="customValueCellTemplate"
@@ -12,7 +12,7 @@
   <button
     mat-icon-button
     type="submit"
-    (click)="alerts('edit'); $event.stopPropagation();"
+    (click)="alerts('edit'); $event.stopPropagation()"
   >
     <mat-icon>delete_outline</mat-icon>
   </button>
@@ -23,5 +23,5 @@
 </ng-template>
 
 <ng-template #customExpandCellTmplate>
-  <ftc-table [tableOption]="tableOption"></ftc-table>
+  <ftc-table [tableOption]="tableConfig"></ftc-table>
 </ng-template>

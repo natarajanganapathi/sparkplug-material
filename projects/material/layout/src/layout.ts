@@ -67,13 +67,6 @@ export function FTC_LAYOUT_DEFAULT_OPTIONS_FACTORY(): FtcLayoutOptions {
     [Breakpoints.XLarge, { left: sidenav("side"), right: sidenav("over") }],
   ]);
 }
-// export function getSidenavConfig(
-//   mode: FtcDrawerMode,
-//   minWidth: number,
-//   maxWidth: number
-// ): FtcSidenavConfig {
-//   return { mode, minWidth, maxWidth };
-// }
 
 const defaults = FTC_LAYOUT_DEFAULT_OPTIONS_FACTORY();
 
