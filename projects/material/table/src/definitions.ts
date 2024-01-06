@@ -9,11 +9,13 @@ export declare type FtcCellDef = {
 export declare type FtcColumnDef = {
   field: string;
   header?: string;
+  headerStyle?: object;
+  cellStyle?: object;
   order?: number;
   sort?: boolean;
   sticky?: boolean;
   stickyEnd?: boolean;
-  style?: CSSStyleDeclaration | object;
+  
   component?: ComponentType<any>;
 };
 

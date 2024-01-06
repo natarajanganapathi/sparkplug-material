@@ -25,38 +25,38 @@ import {
   styleUrl: "./table-doc.component.scss",
 })
 export class TableDocComponent {
-  columnDefs = [
+  columnDefs: FtcColumnDef[] = [
     {
       field: "id",
       header: "Id",
-      sort: true,
+      sort: false,
       order: 6,
-      style: { width: "160px" },
+      headerStyle: { width: "160px" },
     },
     {
       field: "name",
       header: "Name",
-      sort: true,
+      sort: false,
       order: 2,
-      style: { width: "160px" },
+      headerStyle: { width: "160px" },
     },
     {
       field: "age",
       header: "Age",
       order: 3,
-      style: { width: "160px" },
+      headerStyle: { width: "160px" },
     },
     {
       field: "place",
       header: "Place",
       order: 4,
-      style: { width: "160px" },
+      headerStyle: { width: "160px" },
     },
     {
       field: "isAdmin",
       header: "Admin",
       order: 5,
-      style: { width: "360px" },
+      headerStyle: { width: "360px" },
       component: MatCheckbox,
     },
   ];
@@ -86,5 +86,9 @@ export class TableDocComponent {
   }
   alerts(message: string) {
     alert(message);
+  }
+  getTemplateData(element: any) {
+    console.log(element);
+    return this.tableConfig;
   }
 }

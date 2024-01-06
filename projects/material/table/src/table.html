@@ -61,14 +61,14 @@
       *matHeaderCellDef
       mat-sort-header
       cdkDrag
-      [style]="column.style"
+      [style]="column.headerStyle"
     >
       <ng-container
         [ngTemplateOutlet]="headerCellTemplate || defaultHeaderCellTemplate"
         [ngTemplateOutletContext]="{$implicit: getCellDef(column.header || column.field, column.field, column)}"
       ></ng-container>
     </th>
-    <td mat-cell *matCellDef="let element">
+    <td mat-cell *matCellDef="let element" [style]="column.cellStyle">
       <ng-container
         *ngIf="column.component"
         [ngComponentOutlet]="column.component"
@@ -133,7 +133,7 @@
   ></tr>
   <tr
     mat-row
-    *matRowDef="let row; columns: ['expandDetail']"
+    *matRowDef="let row; columns: ['expandDetail']; when expandedElement === null"
     class="expand-detail-row"
   ></tr>
 </table>

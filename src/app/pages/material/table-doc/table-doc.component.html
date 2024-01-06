@@ -12,7 +12,21 @@
   <button
     mat-icon-button
     type="submit"
+    (click)="alerts('save'); $event.stopPropagation()"
+  >
+    <mat-icon>save_outline</mat-icon>
+  </button>
+  <button
+    mat-icon-button
+    type="submit"
     (click)="alerts('edit'); $event.stopPropagation()"
+  >
+    <mat-icon>edit_outline</mat-icon>
+  </button>
+  <button
+    mat-icon-button
+    type="submit"
+    (click)="alerts('delete'); $event.stopPropagation()"
   >
     <mat-icon>delete_outline</mat-icon>
   </button>
@@ -22,6 +36,6 @@
   {{ cellDef.value }}
 </ng-template>
 
-<ng-template #customExpandCellTmplate>
-  <ftc-table [tableOption]="tableConfig"></ftc-table>
+<ng-template #customExpandCellTmplate let-element>
+  <ftc-table [tableOption]="getTemplateData(element)"></ftc-table>
 </ng-template>
