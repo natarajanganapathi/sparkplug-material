@@ -31,7 +31,7 @@ export class TableDocComponent {
       header: "Id",
       sort: false,
       order: 6,
-      headerStyle: { width: "160px" },
+      headerStyle: { width: "60px" },
     },
     {
       field: "name",
@@ -58,6 +58,13 @@ export class TableDocComponent {
       order: 5,
       headerStyle: { width: "360px" },
       component: MatCheckbox,
+    },
+    {
+      field: "actions",
+      header: "Actions",
+      order: 5,
+      headerStyle: { width: "200px" },
+      stickyEnd: true
     },
   ];
   data = [

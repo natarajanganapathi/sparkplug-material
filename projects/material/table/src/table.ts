@@ -100,7 +100,7 @@ export class FtcTable<T>
 
   sortEnabled: WritableSignal<boolean> = signal(false);
   selection = new SelectionModel<T>(true, []);
-  expandedElement!: T;
+  expandedElement?: T;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -134,9 +134,6 @@ export class FtcTable<T>
     const columnNames = columns.map(({ field }) => field);
     if (this.multiSelect) {
       columnNames.unshift("multiSelect");
-    }
-    if (this.actionCellTemplate || this.expandCellTemplate) {
-      columnNames.push("actions");
     }
     return columnNames;
   }
@@ -177,9 +174,9 @@ export class FtcTable<T>
     return `${this.selection.isSelected(row) ? "deselect" : "select"} row `;
   }
   getCellDef(
-    value: string | object,
+    column: FtcColumnDef,
     field: string,
-    column: FtcColumnDef
+    value?: string | object,
   ): FtcCellDef {
     return { value, field, column };
   }

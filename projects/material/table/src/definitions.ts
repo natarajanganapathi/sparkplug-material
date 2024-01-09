@@ -2,7 +2,7 @@ import { ComponentType } from "@angular/cdk/portal";
 
 export declare type FtcCellDef = {
   field: string;
-  value: string | object;
+  value?: string | object;
   column: FtcColumnDef;
 };
 
