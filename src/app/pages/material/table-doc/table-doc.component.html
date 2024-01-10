@@ -6,6 +6,7 @@
   [actionCellTemplate]="customActionCellTmplate"
   [expandCellTemplate]="customExpandCellTmplate"
   [multiSelect]="true"
+  [multiSelectActionTemplate]="customMultiSelectActionTemplate"
 ></ftc-table>
 
 <ng-template #customActionCellTmplate let-cellDef>
@@ -14,7 +15,7 @@
     type="submit"
     (click)="alerts('save'); $event.stopPropagation()"
   >
-    <mat-icon>save_outline</mat-icon>
+    <mat-icon>save_light</mat-icon>
   </button>
   <button
     mat-icon-button
@@ -38,4 +39,14 @@
 
 <ng-template #customExpandCellTmplate let-element>
   <ftc-table [tableOption]="getTemplateData(element)"></ftc-table>
+</ng-template>
+
+<ng-template #customMultiSelectActionTemplate let-selections>
+  <button
+    mat-icon-button
+    type="submit"
+    (click)="alerts(selections); $event.stopPropagation()"
+  >
+    <mat-icon>delete_outline</mat-icon>
+  </button>
 </ng-template>

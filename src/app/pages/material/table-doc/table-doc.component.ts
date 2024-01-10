@@ -58,13 +58,16 @@ export class TableDocComponent {
       order: 5,
       headerStyle: { width: "360px" },
       component: MatCheckbox,
+      componentInput(column, data) {
+        return { checked: data.isAdmin };
+      },
     },
     {
       field: "actions",
       header: "Actions",
       order: 5,
       headerStyle: { width: "200px" },
-      stickyEnd: true
+      stickyEnd: true,
     },
   ];
   data = [
@@ -81,9 +84,7 @@ export class TableDocComponent {
       .setCaption("Demo Table")
       .setColumnDef(this.columnDefs)
       .setData(this.data)
-      .setContext("isAdminInput", (columnDef: FtcColumnDef, data: any) => {
-        return { checked: data.isAdmin };
-      });
+      .setPageContext({ pageSizeOptions: [5, 10, 25, 50, 100, 500] });
   }
   onRowClick(event: object) {
     console.log(event);
@@ -91,8 +92,8 @@ export class TableDocComponent {
   onSortChange(event: object) {
     console.log(event);
   }
-  alerts(message: string) {
-    alert(message);
+  alerts(message: any) {
+    alert(JSON.stringify(message));
   }
   getTemplateData(element: any) {
     console.log(element);

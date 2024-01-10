@@ -1,9 +1,9 @@
 import { ComponentType } from "@angular/cdk/portal";
+import { PageEvent } from "@angular/material/paginator";
 
 export declare type FtcCellDef = {
-  field: string;
-  value?: string | object;
   column: FtcColumnDef;
+  value?: string | object;
 };
 
 export declare type FtcColumnDef = {
@@ -15,21 +15,14 @@ export declare type FtcColumnDef = {
   sort?: boolean;
   sticky?: boolean;
   stickyEnd?: boolean;
-  
   component?: ComponentType<any>;
+  componentInput?(column: FtcColumnDef, data: any): any;
 };
 
-// export declare type FtcTableDef<T> = {
-//   caption?: string;
-//   columnDefs: FtcColumnDef[];
-//   data: T[];
-//   header?: boolean;
-//   footer?: boolean;
-//   context?: Record<
-//     string,
-//     (columnDef: FtcColumnDef, data: T) => Record<string, unknown>
-//   >;
-// };
+export declare type FtcPageContext = {
+  page?: PageEvent;
+  pageSizeOptions: number[];
+};
 
 export class FtcTableDef<T> {
   caption?: string;
@@ -37,15 +30,17 @@ export class FtcTableDef<T> {
   data: T[];
   header?: boolean;
   footer?: boolean;
-  context!: Record<
-    string,
-    (columnDef: FtcColumnDef, data: T) => Record<string, unknown>
-  >;
-  constructor(caption?: string, columnDef?: FtcColumnDef[], data?: T[]) {
+  pageContext?: FtcPageContext;
+  constructor(
+    caption?: string,
+    columnDef?: FtcColumnDef[],
+    data?: T[],
+    pageContext?: FtcPageContext
+  ) {
     this.caption = caption;
     this.columnDefs = columnDef ?? [];
     this.data = data ?? [];
-    this.context = {};
+    this.pageContext = pageContext;
   }
   setCaption(caption: string) {
     this.caption = caption;
@@ -59,11 +54,8 @@ export class FtcTableDef<T> {
     this.data = data;
     return this;
   }
-  setContext(
-    name: string,
-    func: (columnDef: FtcColumnDef, data: T) => Record<string, unknown>
-  ) {
-    this.context[name] = func;
+  setPageContext(context: FtcPageContext) {
+    this.pageContext = context;
     return this;
   }
 }

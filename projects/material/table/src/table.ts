@@ -84,12 +84,14 @@ export class FtcTable<T>
   @Input() actionCellTemplate!: TemplateRef<any>;
 
   @Input() valueCellTemplate!: TemplateRef<any>;
-  @Input() valueCellTemplateInjector!: Injector;
+  @Input() valueCellInjector!: Injector;
 
   @Input() expandCellTemplate!: TemplateRef<any>;
   @Input() expandCellTemplateInjector!: Injector;
 
   @Input() multiSelect: BooleanInput = false;
+  @Input() multiSelectActionTemplate!: TemplateRef<any>;
+  @Input() multiSelectActionTemplateInjector!: Injector;
 
   @Output() rowClick = new EventEmitter<T>();
   @Output() sortChange = new EventEmitter<Sort>();
@@ -175,17 +177,15 @@ export class FtcTable<T>
   }
   getCellDef(
     column: FtcColumnDef,
-    field: string,
-    value?: string | object,
+    value?: string | object
   ): FtcCellDef {
-    return { value, field, column };
+    return { value, column };
   }
-  getCellInput(name: string, column: FtcColumnDef, data: T) {
-    if (!this.tableOption.context[name]) {
-      throw new Error(`${name} is not registered in context`);
-    }
-    const value = this.tableOption.context[name](column, data);
-    return { ...value, disabled: true };
+  getCellInput(column: FtcColumnDef, data: T) {
+    return {
+      ...(column.componentInput ? column.componentInput(column, data) : {}),
+      disabled: true,
+    };
   }
   expand(row: any) {
     this.expandedElement = this.expandedElement === row ? null : row;
