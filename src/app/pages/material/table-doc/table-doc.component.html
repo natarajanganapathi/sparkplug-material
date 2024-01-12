@@ -2,10 +2,10 @@
   [tableOption]="tableConfig"
   (rowClick)="onRowClick($event)"
   (sortChange)="onSortChange($event)"
+  (tableStateChange)="onTableStateChange($event)"
   [valueCellTemplate]="customValueCellTemplate"
   [actionCellTemplate]="customActionCellTmplate"
   [expandCellTemplate]="customExpandCellTmplate"
-  [multiSelect]="true"
   [multiSelectActionTemplate]="customMultiSelectActionTemplate"
 ></ftc-table>
 
@@ -45,8 +45,15 @@
   <button
     mat-icon-button
     type="submit"
-    (click)="alerts(selections); $event.stopPropagation()"
+    (click)="alerts(selections)"
   >
     <mat-icon>delete_outline</mat-icon>
+  </button>
+  <button
+    mat-icon-button
+    type="button"
+    (click)="alerts(selections)"
+  >
+    <mat-icon>add_outline</mat-icon>
   </button>
 </ng-template>

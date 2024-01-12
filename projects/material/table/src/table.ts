@@ -40,8 +40,13 @@ import {
   moveItemInArray,
 } from "@angular/cdk/drag-drop";
 import { ComponentBase, FtcAttr } from "@freshthought/cdk/platform";
-import { BooleanInput } from "@angular/cdk/coercion";
-import { FtcTableDef, FtcColumnDef, FtcCellDef } from "./definitions";
+import {
+  FtcTableDef,
+  FtcColumnDef,
+  FtcCellDef,
+  FtcTableStateChangeEvent,
+} from "./definitions";
+import { merge, takeUntil } from "rxjs";
 
 @Component({
   selector: "ftc-table",
@@ -81,7 +86,9 @@ export class FtcTable<T>
   @Input() tableOption!: FtcTableDef<T>;
 
   @Input() headerCellTemplate!: TemplateRef<any>;
+
   @Input() actionCellTemplate!: TemplateRef<any>;
+  @Input() actionCellTemplateInjector!: Injector;
 
   @Input() valueCellTemplate!: TemplateRef<any>;
   @Input() valueCellInjector!: Injector;
@@ -89,20 +96,20 @@ export class FtcTable<T>
   @Input() expandCellTemplate!: TemplateRef<any>;
   @Input() expandCellTemplateInjector!: Injector;
 
-  @Input() multiSelect: BooleanInput = false;
   @Input() multiSelectActionTemplate!: TemplateRef<any>;
   @Input() multiSelectActionTemplateInjector!: Injector;
 
   @Output() rowClick = new EventEmitter<T>();
   @Output() sortChange = new EventEmitter<Sort>();
   @Output() pageChange = new EventEmitter<PageEvent>();
+  @Output() tableStateChange = new EventEmitter<FtcTableStateChangeEvent>();
 
   dataSource!: MatTableDataSource<T>;
   displayColumns: WritableSignal<string[]> = signal([]);
 
   sortEnabled: WritableSignal<boolean> = signal(false);
   selection = new SelectionModel<T>(true, []);
-  expandedElement?: T;
+  expandedElement?: T | null;
 
   @ViewChild(MatPaginator) paginator!: MatPaginator;
   @ViewChild(MatSort) sort!: MatSort;
@@ -115,6 +122,19 @@ export class FtcTable<T>
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    this.sort.sortChange.subscribe(() => (this.paginator.pageIndex = 0));
+    merge(this.sort.sortChange, this.paginator.page)
+      .pipe(takeUntil(this.destroyed$))
+      .subscribe(() => {
+        const tableState: FtcTableStateChangeEvent = {
+          active: this.sort.active,
+          direction: this.sort.direction,
+          pageSize: this.paginator.pageSize,
+          pageIndex: this.paginator.pageIndex,
+          length: this.paginator.length,
+        };
+        this.tableStateChange.emit(tableState);
+      });
   }
   drop(data: object) {
     const event = data as CdkDragDrop<string[]>;
@@ -134,7 +154,7 @@ export class FtcTable<T>
 
   getAllColumnName(columns: FtcColumnDef[]): string[] {
     const columnNames = columns.map(({ field }) => field);
-    if (this.multiSelect) {
+    if (this.multiSelectActionTemplate) {
       columnNames.unshift("multiSelect");
     }
     return columnNames;
@@ -175,10 +195,7 @@ export class FtcTable<T>
     }
     return `${this.selection.isSelected(row) ? "deselect" : "select"} row `;
   }
-  getCellDef(
-    column: FtcColumnDef,
-    value?: string | object
-  ): FtcCellDef {
+  getCellDef(column: FtcColumnDef, value?: string | object): FtcCellDef {
     return { value, column };
   }
   getCellInput(column: FtcColumnDef, data: T) {
@@ -187,7 +204,7 @@ export class FtcTable<T>
       disabled: true,
     };
   }
-  expand(row: any) {
-    this.expandedElement = this.expandedElement === row ? null : row;
+  expand(data: T) {
+    this.expandedElement = this.expandedElement === data ? null : data;
   }
 }

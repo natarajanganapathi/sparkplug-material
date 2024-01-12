@@ -84,7 +84,7 @@ export class TableDocComponent {
       .setCaption("Demo Table")
       .setColumnDef(this.columnDefs)
       .setData(this.data)
-      .setPageContext({ pageSizeOptions: [5, 10, 25, 50, 100, 500] });
+      .setPageContext({ pageSizeOptions: [5, 10, 25, 50, 100] });
   }
   onRowClick(event: object) {
     console.log(event);
@@ -98,5 +98,8 @@ export class TableDocComponent {
   getTemplateData(element: any) {
     console.log(element);
     return this.tableConfig;
+  }
+  onTableStateChange($event: any) {
+    console.log($event);
   }
 }

@@ -1,4 +1,5 @@
 import { ComponentType } from "@angular/cdk/portal";
+import { SortDirection } from "@angular/material/sort";
 import { PageEvent } from "@angular/material/paginator";
 
 export declare type FtcCellDef = {
@@ -9,8 +10,8 @@ export declare type FtcCellDef = {
 export declare type FtcColumnDef = {
   field: string;
   header?: string;
-  headerStyle?: object;
-  cellStyle?: object;
+  headerStyle?: { [klass: string]: any };
+  cellStyle?: { [klass: string]: any };
   order?: number;
   sort?: boolean;
   sticky?: boolean;
@@ -59,3 +60,11 @@ export class FtcTableDef<T> {
     return this;
   }
 }
+
+export declare type FtcTableStateChangeEvent = {
+  active: string;
+  direction: SortDirection;
+  pageIndex: number;
+  pageSize: number;
+  length: number;
+};

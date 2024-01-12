@@ -109,6 +109,7 @@
       <ng-container
         [ngTemplateOutlet]="actionCellTemplate"
         [ngTemplateOutletContext]="{$implicit: element}"
+        [ngTemplateOutletInjector]="actionCellTemplateInjector"
       ></ng-container>
       <button
         mat-icon-button
